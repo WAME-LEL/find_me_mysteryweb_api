@@ -1,4 +1,7 @@
 package com.findme.mysteryweb.domain;
 
-public class Notice {
+
+public class AdditionalPost {
+
+
 }
