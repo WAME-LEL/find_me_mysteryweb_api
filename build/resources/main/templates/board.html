@@ -14,8 +14,12 @@
     <!-- 게시물 목록 -->
     <div class="card" th:each="post : ${postList}">
         <div class="card-body">
-            <h5 class="card-title" th:text="${post.post_title}">title</h5>
-            <p class="card-text" th:text="${post.post_content}">content</p>
+            <form action="/post/delete" th:action="@{/post/{id}/delete (id = ${post.id})}" method="post">
+                <h5 class="card-title" th:text="${post.post_title}">title</h5>
+                <p class="card-text" th:text="${post.post_content}">content</p>
+
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </form>
         </div>
     </div>
 
@@ -23,7 +27,7 @@
     <!-- 게시물 작성 폼 -->
     <div class="mt-5">
         <h3>새 게시물 작성</h3>
-        <form action="/post" method="post">
+        <form action="/post/save" method="post">
             <div class="form-group">
                 <label for="postTitle">제목</label>
                 <input type="text" name="postTitle" class="form-control" id="postTitle" placeholder="제목을 입력하세요">

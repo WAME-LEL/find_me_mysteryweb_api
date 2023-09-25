@@ -27,4 +27,8 @@ public class PostRepository {
                 .getResultList();
     }
 
+    public void delete(Long id){
+        em.remove(em.find(Post.class, id));
+    }
+
 }

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,7 +25,7 @@ public class PostController {
 
 
 
-    @PostMapping("/post")
+    @PostMapping("/post/save")
     public String post(@RequestParam("postTitle") String postTitle, @RequestParam("postContent") String postContent){
         //더미 멤버
         Member member = Member.createMember("park", "park12", "park34");
@@ -33,10 +34,10 @@ public class PostController {
 
         postService.posting(member.getId(), postTitle, postContent);
 
-        return "redirect:/posts";
+        return "redirect:/post";
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/post")
     public String postList(Model model){
         List<Post> postList = postService.findAll();
 
@@ -50,6 +51,11 @@ public class PostController {
         return "board";
     }
 
+    @PostMapping("/post/{postId}/delete")
+    public String postDelete(@PathVariable("postId") Long postId){
+        postService.delete(postId);
 
+        return "redirect:/post";
+    }
 
 }
