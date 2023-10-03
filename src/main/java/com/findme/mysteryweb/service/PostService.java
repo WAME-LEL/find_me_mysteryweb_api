@@ -47,7 +47,7 @@ public class PostService {
     @Transactional
     public Post update(Long postId, String update_post_title, String update_post_content){
         Post findPost = postRepository.findOne(postId);
-        findPost.setPost_title(update_post_content);
+        findPost.setPost_title(update_post_title);
         findPost.setPost_content(update_post_content);
 
         return findPost;

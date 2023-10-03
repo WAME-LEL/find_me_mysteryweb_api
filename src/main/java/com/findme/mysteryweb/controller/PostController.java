@@ -58,16 +58,20 @@ public class PostController {
         return "redirect:/post";
     }
 
-    @GetMapping("/post/{postId}/update")
-    public String postUpdateForm(@PathVariable("postId") Long postId, Model model){
-        Post findPost = postService.findOne(postId);
-
-        model.addAttribute("post", findPost);
-        return "updateForm";
-    }
+//    @GetMapping("/post/{postId}/update")
+//    public String postUpdateForm(@PathVariable("postId") Long postId, Model model){
+//        Post findPost = postService.findOne(postId);
+//
+//        model.addAttribute("post", findPost);
+//        return "updateForm";
+//    }
 
     @PostMapping("/post/{postId}/update")
-    public String postUpdate(@PathVariable("postId") Long postId){
+    public String postUpdate(@PathVariable("postId") Long postId,
+                             @RequestParam("updatePostTitle") String updatePostTitle,
+                             @RequestParam("updatePostContent") String updatePostContent){
+
+        postService.update(postId, updatePostTitle, updatePostContent);
 
 
         return "redirect:/post";
