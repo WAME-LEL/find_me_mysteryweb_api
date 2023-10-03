@@ -30,6 +30,10 @@ public class PostService {
         postRepository.save(post);
     }
 
+    public Post findOne(Long postId){
+        return postRepository.findOne(postId);
+    }
+
     public List<Post> findAll(){
         return postRepository.findAll();
     }
@@ -40,6 +44,14 @@ public class PostService {
         postRepository.delete(postId);
     }
 
+    @Transactional
+    public Post update(Long postId, String update_post_title, String update_post_content){
+        Post findPost = postRepository.findOne(postId);
+        findPost.setPost_title(update_post_content);
+        findPost.setPost_content(update_post_content);
+
+        return findPost;
+    }
 
 
 

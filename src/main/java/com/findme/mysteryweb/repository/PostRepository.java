@@ -1,5 +1,6 @@
 package com.findme.mysteryweb.repository;
 
+import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
@@ -30,5 +31,6 @@ public class PostRepository {
     public void delete(Long id){
         em.remove(em.find(Post.class, id));
     }
+
 
 }

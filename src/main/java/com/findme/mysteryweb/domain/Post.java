@@ -18,8 +18,10 @@ public class Post {
 
     private LocalDateTime post_date;
 
+    @Column(columnDefinition = "TEXT")
     private String post_title;
 
+    @Column(columnDefinition = "TEXT")
     private String post_content;
 
     @ManyToOne(fetch = FetchType.LAZY)

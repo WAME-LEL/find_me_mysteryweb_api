@@ -4,6 +4,7 @@ package com.findme.mysteryweb.controller;
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
 import com.findme.mysteryweb.repository.MemberRepository;
+import com.findme.mysteryweb.repository.PostRepository;
 import com.findme.mysteryweb.service.MemberService;
 import com.findme.mysteryweb.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,6 @@ public class PostController {
             System.out.println(post.getPost_title());
         }
 
-
         model.addAttribute("postList", postList);
 
         return "board";
@@ -54,6 +54,21 @@ public class PostController {
     @PostMapping("/post/{postId}/delete")
     public String postDelete(@PathVariable("postId") Long postId){
         postService.delete(postId);
+
+        return "redirect:/post";
+    }
+
+    @GetMapping("/post/{postId}/update")
+    public String postUpdateForm(@PathVariable("postId") Long postId, Model model){
+        Post findPost = postService.findOne(postId);
+
+        model.addAttribute("post", findPost);
+        return "updateForm";
+    }
+
+    @PostMapping("/post/{postId}/update")
+    public String postUpdate(@PathVariable("postId") Long postId){
+
 
         return "redirect:/post";
     }

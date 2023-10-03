@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
 
@@ -14,12 +14,54 @@
     <!-- 게시물 목록 -->
     <div class="card" th:each="post : ${postList}">
         <div class="card-body">
-            <form action="/post/delete" th:action="@{/post/{id}/delete (id = ${post.id})}" method="post">
-                <h5 class="card-title" th:text="${post.post_title}">title</h5>
-                <p class="card-text" th:text="${post.post_content}">content</p>
+            <h5 class="card-title" th:text="${post.post_title}">title</h5>
+            <p class="card-text" th:text="${post.post_content}">content</p>
 
-                <button type="submit" class="btn btn-primary">Delete</button>
-            </form>
+            <div class="d-flex flex-row">
+                <form action="/post/delete" th:action="@{/post/{id}/delete (id = ${post.id})}" method="post">
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </form>
+
+                <!-- Button trigger modal 업데이트 모달-->
+
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    update modal
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">글 수정</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="/post/update" th:action="@{/post/{id}/update (id = ${post.id})}" method="post">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="postTitle">제목</label>
+                                        <input class="form-control" name="updatePostTitle" id="updatePostTitle"
+                                               th:value="${post.post_title}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="postContent">내용</label>
+                                        <textarea class="form-control" name="updatePostContent" id="updatePostContent"
+                                                  rows="5" cols="50" th:text="${post.post_content}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
 
@@ -34,14 +76,17 @@
             </div>
             <div class="form-group">
                 <label for="postContent">내용</label>
-                <textarea class="form-control" name="postContent" id="postContent" rows="3" placeholder="내용을 입력하세요"></textarea>
+                <textarea class="form-control" name="postContent" id="postContent" rows="3"
+                          placeholder="내용을 입력하세요"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">게시물 작성</button>
         </form>
     </div>
+
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>
