@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font.css">
     <style>
         pre {
             white-space: pre-wrap;
+        }
+        .content-font {
+            font-size: 16px;
+        }
+        .title-font{
+            font-size: 21px;
+            font-weight: bold;
         }
 
     </style>
@@ -22,9 +30,9 @@
     <!-- 게시물 목록 -->
     <div class="card" th:each="post : ${postList}">
         <div class="card">
-            <h4 class="card-header" th:text="${post.post_title}">title</h4>
+            <h4 class="card-header RIDIBatang title-font" th:text="${post.post_title}">title</h4>
             <div class="card-body">
-                <pre class="card-text" th:text="${post.post_content}">content</pre>
+                <pre class="card-text RIDIBatang content-font" th:text="${post.post_content}">content</pre>
 
                 <div class="d-flex flex-row justify-content-end">
                     <form action="/post/delete" th:action="@{/post/{id}/delete (id = ${post.id})}" method="post">
