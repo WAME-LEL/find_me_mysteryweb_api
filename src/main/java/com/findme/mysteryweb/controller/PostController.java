@@ -25,6 +25,11 @@ public class PostController {
     private final MemberService memberService;
 
 
+    @GetMapping("/post/new")
+    public String postingForm(){
+
+        return "createPost";
+    }
 
     @PostMapping("/post/save")
     public String post(@RequestParam("postTitle") String postTitle, @RequestParam("postContent") String postContent){

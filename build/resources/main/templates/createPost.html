@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Post</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa; /* Bootstrap default background color */
+            padding: 20px;
+        }
+        .form-container {
+            margin: 0 auto;
+            background-color: #ffffff; /* White background */
+            border: 1px solid #dcdcdc; /* Light Gray border */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #343a40; /* Dark Gray, for better readability */
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <a class = "text-decoration-none text-black" href="/">
+        <h1 class="text-center mb-4">Find Me -Mystery Web-</h1>
+    </a>
+
+    <div class="form-container">
+        <h1>Create Post</h1>
+
+        <!-- 게시물 작성 폼 -->
+        <form>
+            <div class="form-group">
+                <label for="postTitle">Title</label>
+                <input type="text" class="form-control" id="postTitle" placeholder="Enter title">
+            </div>
+            <div class="form-group">
+                <label for="postContent">Content</label>
+                <textarea class="form-control" id="postContent" rows="5" placeholder="Enter content"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Post</button>
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+
+</body>
+</html>
