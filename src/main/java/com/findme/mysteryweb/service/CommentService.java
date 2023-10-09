@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,6 +23,16 @@ public class CommentService {
         Comment comment = Comment.createComment(member, comment_content);
 
         commentRepository.save(comment);
+    }
+
+    @Transactional(readOnly = true)
+    public Comment findOne(Long commentId){
+        return commentRepository.findOne(commentId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Comment> findAll(){
+        return commentRepository.findAll();
     }
 
     public void delete(Long commentId){

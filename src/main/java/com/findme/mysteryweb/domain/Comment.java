@@ -18,9 +18,11 @@ public class Comment {
     private Long id;
 
     private LocalDateTime comment_date;
-    private String comment_content;
+
     private int comment_recommend;
 
+    @Column(columnDefinition = "TEXT")
+    private String comment_content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;

@@ -3,8 +3,6 @@ package com.findme.mysteryweb.controller;
 
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
-import com.findme.mysteryweb.repository.MemberRepository;
-import com.findme.mysteryweb.repository.PostRepository;
 import com.findme.mysteryweb.service.MemberService;
 import com.findme.mysteryweb.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,7 @@ public class PostController {
     @GetMapping("/post/new")
     public String postingForm(){
 
-        return "createPost";
+        return "postForm";
     }
 
     @PostMapping("/post/save")
@@ -40,16 +38,12 @@ public class PostController {
 
         postService.posting(member.getId(), postTitle, postContent);
 
-        return "redirect:/post";
+        return "redirect:/";
     }
 
     @GetMapping("/post")
     public String postList(Model model){
         List<Post> postList = postService.findAll();
-
-        for (Post post: postList) {
-            System.out.println(post.getPost_title());
-        }
 
         model.addAttribute("postList", postList);
 

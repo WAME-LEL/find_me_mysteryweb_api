@@ -43,16 +43,17 @@
         <h1>Create Post</h1>
 
         <!-- 게시물 작성 폼 -->
-        <form>
+        <form action="/post/save" method="post">
             <div class="form-group">
-                <label for="postTitle">Title</label>
-                <input type="text" class="form-control" id="postTitle" placeholder="Enter title">
+                <label for="postTitle">제목</label>
+                <input type="text" name="postTitle" class="form-control" id="postTitle" placeholder="제목을 입력하세요">
             </div>
             <div class="form-group">
-                <label for="postContent">Content</label>
-                <textarea class="form-control" id="postContent" rows="5" placeholder="Enter content"></textarea>
+                <label for="postContent">내용</label>
+                <textarea class="form-control" name="postContent" id="postContent" rows="3"
+                          placeholder="내용을 입력하세요"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Create Post</button>
+            <button type="submit" class="btn btn-primary">게시물 작성</button>
         </form>
     </div>
 </div>
