@@ -18,6 +18,10 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    public Member findOne(Long memberId){
+        return memberRepository.findOne(memberId);
+    }
+
     @Transactional
     public void delete(Long memberId){
         memberRepository.delete(memberId);

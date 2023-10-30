@@ -27,26 +27,86 @@
         <h1 class="text-center mb-4">Find Me -Mystery Web-</h1>
     </a>
 
+
     <!-- 게시물 목록 -->
-    <div class="card" th:each="post : ${postList}">
+    <div class="card">
+        <h4 class="card-header RIDIBatang title-font" th:text="${post.post_title}">title</h4>
+        <div class="card-body">
+            <pre class="card-text RIDIBatang content-font" th:text="${post.post_content}">content</pre>
+
+            <div class="d-flex flex-row justify-content-end">
+                <form action="/post/delete" th:action="@{/post/{id}/delete (id = ${post.id})}" method="post">
+                    <button type="submit" class="btn btn-primary mx-3">Delete</button>
+                </form>
+
+                <!-- Button trigger modal 업데이트 모달-->
+
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
+                    Update
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="updateModalLabel">글 수정</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <form action="/post/update" th:action="@{/post/{id}/update (id = ${post.id})}"
+                                  method="post">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="updatePostTitle">제목</label>
+                                        <input class="form-control" name="updatePostTitle" id="updatePostTitle"
+                                               th:value="${post.post_title}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="updatePostContent">내용</label>
+                                        <textarea class="form-control" name="updatePostContent"
+                                                  id="updatePostContent"
+                                                  rows="5" cols="50" th:text="${post.post_content}"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <h3>댓글</h3>
+
+    <!-- 댓글 목록 -->
+    <div class="card" th:each="comment : ${commentList}">
         <div class="card">
-            <h4 class="card-header RIDIBatang title-font" th:text="${post.post_title}">title</h4>
+            <h4 class="card-header RIDIBatang title-font" th:text="${comment.comment_title}">title</h4>
             <div class="card-body">
-                <pre class="card-text RIDIBatang content-font" th:text="${post.post_content}">content</pre>
+                <pre class="card-text RIDIBatang content-font" th:text="${comment.comment_content}">content</pre>
 
                 <div class="d-flex flex-row justify-content-end">
-                    <form action="/post/delete" th:action="@{/post/{id}/delete (id = ${post.id})}" method="post">
+                    <form action="/post/delete" th:action="@{/comment/{id}/delete (id = ${comment.id})}" method="post">
                         <button type="submit" class="btn btn-primary mx-3">Delete</button>
                     </form>
 
                     <!-- Button trigger modal 업데이트 모달-->
 
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#commentUpdateModal">
                         Update
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    <div class="modal fade" id="commentUpdateModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                          aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -55,19 +115,19 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                 </div>
-                                <form action="/post/update" th:action="@{/post/{id}/update (id = ${post.id})}"
+                                <form action="/post/update" th:action="@{/comment/{id}/update (id = ${comment.id})}"
                                       method="post">
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="postTitle">제목</label>
-                                            <input class="form-control" name="updatePostTitle" id="updatePostTitle"
-                                                   th:value="${post.post_title}">
+                                            <label for="updatePostTitle">제목</label>
+                                            <input class="form-control" name="updatePostTitle" id="updateCommentTitle"
+                                                   th:value="${comment.comment_title}">
                                         </div>
                                         <div class="form-group">
-                                            <label for="postContent">내용</label>
+                                            <label for="updatePostContent">내용</label>
                                             <textarea class="form-control" name="updatePostContent"
-                                                      id="updatePostContent"
-                                                      rows="5" cols="50" th:text="${post.post_content}"></textarea>
+                                                      id="updateCommentContent"
+                                                      rows="5" cols="50" th:text="${comment.comment_content}"></textarea>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -90,18 +150,19 @@
 
     <!-- 게시물 작성 폼 -->
     <div class="mt-5">
-        <h3>새 게시물 작성</h3>
-        <form action="/post/save" method="post">
+        <h3>댓글 작성</h3>
+        <form action="/comment/save" method="post">
             <div class="form-group">
-                <label for="postTitle">제목</label>
-                <input type="text" name="postTitle" class="form-control" id="postTitle" placeholder="제목을 입력하세요">
+                <label for="commentTitle">제목</label>
+                <input type="text" name="commentTitle" class="form-control" id="commentTitle" placeholder="제목을 입력하세요">
             </div>
             <div class="form-group">
-                <label for="postContent">내용</label>
-                <textarea class="form-control" name="postContent" id="postContent" rows="3"
+                <label for="commentContent">내용</label>
+                <textarea class="form-control" name="commentContent" id="commentContent" rows="3"
                           placeholder="내용을 입력하세요"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">게시물 작성</button>
+            <input type="hidden" name="postId" th:value="${post.id}">
+            <button type="submit" class="btn btn-primary">댓글 등록</button>
         </form>
     </div>
 

@@ -2,8 +2,10 @@ package com.findme.mysteryweb.service;
 
 import com.findme.mysteryweb.domain.Comment;
 import com.findme.mysteryweb.domain.Member;
+import com.findme.mysteryweb.domain.Post;
 import com.findme.mysteryweb.repository.CommentRepository;
 import com.findme.mysteryweb.repository.MemberRepository;
+import com.findme.mysteryweb.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +18,13 @@ import java.util.List;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
+    private final PostRepository postRepository;
 
-    public void writeComment(Long memberId, String comment_content){
+    public void writeComment(Long postId, Long memberId, String comment_title, String comment_content){
+        Post post = postRepository.findOne(postId);
         Member member = memberRepository.findOne(memberId);
 
-        Comment comment = Comment.createComment(member, comment_content);
+        Comment comment = Comment.createComment(post, member, comment_title, comment_content);
 
         commentRepository.save(comment);
     }
@@ -33,6 +37,10 @@ public class CommentService {
     @Transactional(readOnly = true)
     public List<Comment> findAll(){
         return commentRepository.findAll();
+    }
+
+    public List<Comment> findAllByPostId(Long postId){
+        return commentRepository.findAllByPostId(postId);
     }
 
     public void delete(Long commentId){

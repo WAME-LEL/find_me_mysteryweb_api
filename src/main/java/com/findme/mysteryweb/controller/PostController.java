@@ -1,8 +1,10 @@
 package com.findme.mysteryweb.controller;
 
 
+import com.findme.mysteryweb.domain.Comment;
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
+import com.findme.mysteryweb.service.CommentService;
 import com.findme.mysteryweb.service.MemberService;
 import com.findme.mysteryweb.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class PostController {
 
     private final PostService postService;
     private final MemberService memberService;
+    private final CommentService commentService;
 
 
     @GetMapping("/post/new")
@@ -41,11 +44,16 @@ public class PostController {
         return "redirect:/";
     }
 
-    @GetMapping("/post")
-    public String postList(Model model){
+    @GetMapping("/post/{postId}")
+    public String postList(@PathVariable Long postId, Model model){
         List<Post> postList = postService.findAll();
+        Post post = postService.findOne(postId);
+        List<Comment> commentList = commentService.findAllByPostId(postId);
 
-        model.addAttribute("postList", postList);
+
+        model.addAttribute("post", post);
+
+        model.addAttribute("commentList", commentList);
 
         return "board";
     }

@@ -26,6 +26,12 @@ public class CommentRepository {
         return em.createQuery("select c from Comment c", Comment.class).getResultList();
     }
 
+    public List<Comment> findAllByPostId(Long postId){
+        return em.createQuery("select c from Comment c where c.post.id = :postId", Comment.class)
+                .setParameter("postId", postId)
+                .getResultList();
+    }
+
     public void delete(Long commentId){
         em.remove(em.find(Comment.class, commentId));
     }
