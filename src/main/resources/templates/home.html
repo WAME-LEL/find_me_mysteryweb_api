@@ -61,7 +61,6 @@
 
     <div>
         <a class="btn btn-lg btn-dark" href="/post/new">글 작성</a>
-
     </div>
 
     <div>
@@ -73,6 +72,7 @@
     <div class="board" th:each="post : ${postList}">
         <div class="post-it d-flex flex-column">
             <h5 class="post-title" th:text="${post.post_title}">title</h5>
+            <p th:text="${post.member.nickname}">ㅇㅇ</p>
             <p class="post-content text-truncate text-break" th:text="${post.post_content}">content</p>
 
             <div class="d-flex flex-row-reverse">

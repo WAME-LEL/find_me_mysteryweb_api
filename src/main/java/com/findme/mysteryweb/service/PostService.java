@@ -2,6 +2,7 @@ package com.findme.mysteryweb.service;
 
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
+import com.findme.mysteryweb.domain.ProblemType;
 import com.findme.mysteryweb.repository.MemberRepository;
 import com.findme.mysteryweb.repository.PostRepository;
 import jakarta.persistence.criteria.Order;
@@ -21,11 +22,11 @@ public class PostService {
 
 
     @Transactional
-    public void posting(Long memberId, String post_title, String post_content){
+    public void posting(Long memberId, String post_title, String post_content, ProblemType problemType){
         //엔티티 조회
         Member member = memberRepository.findOne(memberId);
 
-        Post post = Post.createPost(post_title, post_content, member);
+        Post post = Post.createPost(post_title, post_content, problemType, member);
 
         postRepository.save(post);
     }

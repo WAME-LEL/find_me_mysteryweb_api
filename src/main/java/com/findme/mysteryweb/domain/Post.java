@@ -28,13 +28,17 @@ public class Post {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Enumerated(EnumType.STRING)
+    private ProblemType problemType;
+
     //== 생성 메서드 ==//
-    public static Post createPost(String post_title, String post_content, Member member){
+    public static Post createPost(String post_title, String post_content, ProblemType problemType, Member member){
         Post post = new Post();
         post.setPost_date(LocalDateTime.now());
         post.setPost_title(post_title);
         post.setPost_content(post_content);
         post.setMember(member);
+        post.setProblemType(problemType);
 
         return post;
     }
