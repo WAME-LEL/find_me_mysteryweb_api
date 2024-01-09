@@ -2,10 +2,9 @@ package com.findme.mysteryweb.service;
 
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
-import com.findme.mysteryweb.domain.ProblemType;
+import com.findme.mysteryweb.domain.AnswerType;
 import com.findme.mysteryweb.repository.MemberRepository;
 import com.findme.mysteryweb.repository.PostRepository;
-import jakarta.persistence.criteria.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +21,14 @@ public class PostService {
 
 
     @Transactional
-    public void posting(Long memberId, String post_title, String post_content, ProblemType problemType){
+    public Long posting(Long memberId, String post_title, String post_content, String post_type, String answer, AnswerType answerType){
         //엔티티 조회
         Member member = memberRepository.findOne(memberId);
 
-        Post post = Post.createPost(post_title, post_content, problemType, member);
+        Post post = Post.createPost(post_title, post_content, post_type, answer, answerType, member);
 
-        postRepository.save(post);
+        return postRepository.save(post);
+
     }
 
     public Post findOne(Long postId){
@@ -37,6 +37,18 @@ public class PostService {
 
     public List<Post> findAll(){
         return postRepository.findAll();
+    }
+
+    public List<Post> findAllByType(String type){
+        return postRepository.findAllByType(type);
+    }
+
+    public List<Post> findAllByTitle(String title){
+        return postRepository.findAllByTitle(title);
+    }
+
+    public List<Post> findAllByTypeAndTitle(String type, String title){
+        return postRepository.findAllByTypeAndTitle(type, title);
     }
 
 
@@ -48,8 +60,8 @@ public class PostService {
     @Transactional
     public Post update(Long postId, String update_post_title, String update_post_content){
         Post findPost = postRepository.findOne(postId);
-        findPost.setPost_title(update_post_title);
-        findPost.setPost_content(update_post_content);
+        findPost.setTitle(update_post_title);
+        findPost.setContent(update_post_content);
 
         return findPost;
     }

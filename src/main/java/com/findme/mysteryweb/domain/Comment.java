@@ -17,34 +17,31 @@ public class Comment {
     @Column(name = "comment_id")
     private Long id;
 
-    private LocalDateTime comment_date;
+    private LocalDateTime dateTime;
 
-    private int comment_recommend;
-
-    @Column(columnDefinition = "TEXT")
-    private String comment_title;
+    private int recommend;
 
     @Column(columnDefinition = "TEXT")
-    private String comment_content;
+    private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
     private Member member;
 
 
     //== 생성 메서드 ==//
-    public static Comment createComment(Post post, Member member, String comment_title, String comment_content){
+    public static Comment createComment(Post post, Member member, String content){
         Comment comment = new Comment();
         comment.setPost(post);
         comment.setMember(member);
-        comment.setComment_date(LocalDateTime.now());
-        comment.setComment_recommend(0);
-        comment.setComment_title(comment_title);
-        comment.setComment_content(comment_content);
+        comment.setDateTime(LocalDateTime.now());
+        comment.setRecommend(0);
+
+        comment.setContent(content);
 
         return comment;
     }

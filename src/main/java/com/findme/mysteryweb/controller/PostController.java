@@ -4,7 +4,7 @@ package com.findme.mysteryweb.controller;
 import com.findme.mysteryweb.domain.Comment;
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
-import com.findme.mysteryweb.domain.ProblemType;
+import com.findme.mysteryweb.domain.AnswerType;
 import com.findme.mysteryweb.service.CommentService;
 import com.findme.mysteryweb.service.MemberService;
 import com.findme.mysteryweb.service.PostService;
@@ -34,13 +34,22 @@ public class PostController {
     }
 
     @PostMapping("/post/save")
-    public String post(@RequestParam("postTitle") String postTitle, @RequestParam("postContent") String postContent, @RequestParam("nickname") String nickname, @RequestParam("problemType") ProblemType problemType){
+    public String post(
+            @RequestParam("postTitle") String postTitle,
+            @RequestParam("postContent") String postContent,
+            @RequestParam("Post_type") String post_type,
+            @RequestParam("answer") String answer,
+            @RequestParam("nickname") String nickname,
+            @RequestParam("multiple_answer") AnswerType multiple_answer,
+            @RequestParam("short_answer") AnswerType short_answer
+
+    ){
         //더미 멤버
         Member member = Member.createMember("park", "park12", "park34");
 
         memberService.save(member);
 
-        postService.posting(member.getId(), postTitle, postContent, problemType);
+        postService.posting(member.getId(), postTitle, postContent, post_type, answer, short_answer);
 
         return "redirect:/";
     }

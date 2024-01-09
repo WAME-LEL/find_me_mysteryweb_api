@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,6 +20,14 @@ public class Member {
     private String nickname;
     private String username;
     private String password;
+    private String email;
+    private int solved;
+
+    private String AuthenticationCode;
+    private LocalDateTime authenticationCodeExpireTime;
+    private boolean activated;
+
+
 
     @OneToMany(mappedBy = "member")
     private List<Post> posts;
@@ -33,9 +42,7 @@ public class Member {
         member.setUsername(username);
         member.setPassword(password);
 
-
         return member;
     }
-
 
 }

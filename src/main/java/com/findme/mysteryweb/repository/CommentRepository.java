@@ -14,8 +14,10 @@ import java.util.List;
 public class CommentRepository {
     private final EntityManager em;
 
-    public void save(Comment comment){
+    public Long save(Comment comment){
         em.persist(comment);
+
+        return comment.getId();
     }
 
     public Comment findOne(Long commentId){
@@ -34,6 +36,10 @@ public class CommentRepository {
 
     public void delete(Long commentId){
         em.remove(em.find(Comment.class, commentId));
+    }
+
+    public void clearStore (){
+        em.clear();
     }
 
 

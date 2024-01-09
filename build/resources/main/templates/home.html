@@ -71,9 +71,9 @@
 
     <div class="board" th:each="post : ${postList}">
         <div class="post-it d-flex flex-column">
-            <h5 class="post-title" th:text="${post.post_title}">title</h5>
+            <h5 class="post-title" th:text="${post.getTitle}">title</h5>
             <p th:text="${post.member.nickname}">ㅇㅇ</p>
-            <p class="post-content text-truncate text-break" th:text="${post.post_content}">content</p>
+            <p class="post-content text-truncate text-break" th:text="${post.getContent}">content</p>
 
             <div class="d-flex flex-row-reverse">
                 <a class="post-button btn btn-primary mt-auto p-2" th:href="@{/post/{id} (id=${post.id})}" href="#">Enter</a>

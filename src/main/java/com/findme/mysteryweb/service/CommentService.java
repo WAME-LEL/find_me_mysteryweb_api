@@ -20,13 +20,13 @@ public class CommentService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
 
-    public void writeComment(Long postId, Long memberId, String comment_title, String comment_content){
+    public Long writeComment(Long postId, Long memberId, String comment_content){
         Post post = postRepository.findOne(postId);
         Member member = memberRepository.findOne(memberId);
 
-        Comment comment = Comment.createComment(post, member, comment_title, comment_content);
+        Comment comment = Comment.createComment(post, member, comment_content);
 
-        commentRepository.save(comment);
+        return commentRepository.save(comment);
     }
 
     @Transactional(readOnly = true)

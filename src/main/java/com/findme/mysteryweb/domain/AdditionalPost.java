@@ -15,11 +15,11 @@ public class AdditionalPost {
     @Column(name = "additional_id")
     private Long id;
 
-    private LocalDateTime additionalPost_date;
+    private LocalDateTime dateTime;
 
-    private String additionalPost_title;
+    private String title;
 
-    private String additionalPost_content;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;

@@ -15,8 +15,10 @@ public class PostRepository {
 
     private final EntityManager em;
 
-    public void save(Post post){
+    public Long save(Post post){
         em.persist(post);
+
+        return post.getId();
     }
 
     public Post findOne(Long id){
@@ -28,8 +30,31 @@ public class PostRepository {
                 .getResultList();
     }
 
+    public List<Post> findAllByType(String type){
+        return em.createQuery("select p from Post p where p.type like :type", Post.class)
+                .setParameter("type", type)
+                .getResultList();
+    }
+
+    public List<Post> findAllByTitle(String title){
+        return em.createQuery("select p from Post p where p.title like :title", Post.class)
+                .setParameter("title", title)
+                .getResultList();
+    }
+
+    public List<Post> findAllByTypeAndTitle(String type, String title){
+        return em.createQuery("select p from Post p where p.title like :title and p.type like :type", Post.class)
+                .setParameter("title", title)
+                .setParameter("type", type)
+                .getResultList();
+    }
+
     public void delete(Long id){
         em.remove(em.find(Post.class, id));
+    }
+
+    public void clearStore(){
+        em.clear();
     }
 
 
