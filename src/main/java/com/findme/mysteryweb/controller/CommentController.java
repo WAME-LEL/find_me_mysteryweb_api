@@ -27,7 +27,7 @@ public class CommentController {
         Member member = memberService.findOne(1L);
         log.info("postId:"+postId+" memberId:"+ member.getId()+" title:"+ comment_title+" content:"+comment_content);
 
-        commentService.writeComment(postId, member.getId(), comment_content);
+//        commentService.writeComment(postId, member.getId(), comment_content);
         return "redirect:/post/"+postId;
     }
 

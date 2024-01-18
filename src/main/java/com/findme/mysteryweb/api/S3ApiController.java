@@ -36,7 +36,7 @@ public class S3ApiController {
     @PostMapping("/api/image")
     public ResponseEntity<?> uploadFile(@ModelAttribute UploadFileRequest request) {
         try {
-            String originalFilename = request.getFile().getOriginalFilename();
+            String originalFilename = request.file.getOriginalFilename();
             String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
 
             // 현재 날짜와 시간을 기반으로 파일명 생성

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,7 +19,7 @@ public class Comment {
     @Column(name = "comment_id")
     private Long id;
 
-    private LocalDateTime dateTime;
+    private LocalDateTime datetime;
 
     private int recommend;
 
@@ -28,17 +30,27 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
     private Member member;
 
 
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
+    private List<Comment> replies;
+
+
     //== 생성 메서드 ==//
-    public static Comment createComment(Post post, Member member, String content){
+    public static Comment createComment(Post post, Comment parent, Member member, String content){
         Comment comment = new Comment();
         comment.setPost(post);
+        comment.setParent(parent);
         comment.setMember(member);
-        comment.setDateTime(LocalDateTime.now());
+        comment.setDatetime(LocalDateTime.now());
         comment.setRecommend(0);
 
         comment.setContent(content);

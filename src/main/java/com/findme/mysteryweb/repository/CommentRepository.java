@@ -2,6 +2,7 @@ package com.findme.mysteryweb.repository;
 
 
 import com.findme.mysteryweb.domain.Comment;
+import com.findme.mysteryweb.domain.Post;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,13 @@ public class CommentRepository {
         return em.createQuery("select c from Comment c", Comment.class).getResultList();
     }
 
+    public List<Comment> findAllByMemberId(Long memberId){
+        return em.createQuery("select c from Comment c where c.member.id = :memberId order by c.datetime desc", Comment.class)
+                .setParameter("memberId", memberId)
+                .getResultList();
+
+    }
+
     public List<Comment> findAllByPostId(Long postId){
         return em.createQuery("select c from Comment c where c.post.id = :postId", Comment.class)
                 .setParameter("postId", postId)
@@ -40,6 +48,19 @@ public class CommentRepository {
 
     public void clearStore (){
         em.clear();
+    }
+
+
+    public List<Comment> findAllTopLevelCommentsByPostId(Long postId) {
+        return em.createQuery("SELECT c FROM Comment c WHERE c.post.id = :postId AND c.parent IS NULL", Comment.class)
+                .setParameter("postId", postId)
+                .getResultList();
+    }
+
+    public List<Comment> findRepliesByCommentId(Long commentId) {
+        return em.createQuery("SELECT c FROM Comment c WHERE c.parent.id = :commentId", Comment.class)
+                .setParameter("commentId", commentId)
+                .getResultList();
     }
 
 

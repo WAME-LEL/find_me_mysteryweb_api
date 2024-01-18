@@ -31,7 +31,7 @@ class PostRepositoryTest {
     @Test
     void save() {
         //given
-        Post post = Post.createPost("test", "test", "test","test",AnswerType.multiple_answer, new Member());
+        Post post = Post.createPost("test", "test", "test", "test","test", new Member());
 
         //when
         postRepository.save(post);
@@ -44,7 +44,7 @@ class PostRepositoryTest {
     @Test
     void findOne() {
         //given
-        Post post = Post.createPost("test", "test", "test","test",AnswerType.multiple_answer, new Member());
+        Post post = Post.createPost("test", "test", "test", "test","test", new Member());
 
         //when
         postRepository.save(post);
@@ -57,8 +57,8 @@ class PostRepositoryTest {
     @Test
     void findAll() {
         //given
-        Post post1 = Post.createPost("test", "test", "test","test",AnswerType.multiple_answer, new Member());
-        Post post2 = Post.createPost("test", "test", "test","test",AnswerType.multiple_answer, new Member());
+        Post post1 = Post.createPost("test", "test", "test", "test","test", new Member());
+        Post post2 = Post.createPost("test", "test", "test", "test","test", new Member());
 
         //when
         postRepository.save(post1);
@@ -72,8 +72,8 @@ class PostRepositoryTest {
     @Test
     void findAllByType(){
         //given
-        Post post1 = Post.createPost("test1", "test1", "test1","test",AnswerType.multiple_answer, new Member());
-        Post post2 = Post.createPost("test2", "test2", "test2","test",AnswerType.multiple_answer, new Member());
+        Post post1 = Post.createPost("test1", "test1", "test1", "test","test", new Member());
+        Post post2 = Post.createPost("test2", "test2", "test2", "test","test", new Member());
 
         //when
         postRepository.save(post1);
@@ -87,8 +87,8 @@ class PostRepositoryTest {
     @Test
     void findAllByTitle(){
         //given
-        Post post1 = Post.createPost("test1", "test1", "test1","test",AnswerType.multiple_answer, new Member());
-        Post post2 = Post.createPost("test2", "test2", "test2","test",AnswerType.multiple_answer, new Member());
+        Post post1 = Post.createPost("test1", "test1", "test1", "test","test", new Member());
+        Post post2 = Post.createPost("test2", "test2", "test2", "test","test", new Member());
 
         //when
         postRepository.save(post1);
@@ -102,8 +102,8 @@ class PostRepositoryTest {
     @Test
     void findAllByTypeAndTitle(){
         //given
-        Post post1 = Post.createPost("test1", "test1", "test1","test",AnswerType.multiple_answer, new Member());
-        Post post2 = Post.createPost("test1", "test2", "test2","test",AnswerType.multiple_answer, new Member());
+        Post post1 = Post.createPost("test1", "test1", "test1","test", "test", new Member());
+        Post post2 = Post.createPost("test1", "test2", "test2","test", "test", new Member());
 
         //when
         postRepository.save(post1);
@@ -118,8 +118,8 @@ class PostRepositoryTest {
     @Test
     void delete() {
         //given
-        Post post1 = Post.createPost("test", "test", "test","test",AnswerType.multiple_answer, new Member());
-        Post post2 = Post.createPost("test", "test", "test","test",AnswerType.multiple_answer, new Member());
+        Post post1 = Post.createPost("test", "test", "test", "test","test", new Member());
+        Post post2 = Post.createPost("test", "test", "test", "test","test", new Member());
 
         //when
         postRepository.save(post1);

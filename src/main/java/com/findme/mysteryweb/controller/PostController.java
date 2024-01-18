@@ -39,6 +39,7 @@ public class PostController {
             @RequestParam("postContent") String postContent,
             @RequestParam("Post_type") String post_type,
             @RequestParam("answer") String answer,
+            @RequestParam("explanation") String explanation,
             @RequestParam("nickname") String nickname,
             @RequestParam("multiple_answer") AnswerType multiple_answer,
             @RequestParam("short_answer") AnswerType short_answer
@@ -49,7 +50,7 @@ public class PostController {
 
         memberService.save(member);
 
-        postService.posting(member.getId(), postTitle, postContent, post_type, answer, short_answer);
+        postService.posting(member.getId(), postTitle, postContent, post_type, answer, explanation, short_answer);
 
         return "redirect:/";
     }

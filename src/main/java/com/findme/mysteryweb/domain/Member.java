@@ -22,6 +22,7 @@ public class Member {
     private String password;
     private String email;
     private int solved;
+    private int ranking;
 
     private String AuthenticationCode;
     private LocalDateTime authenticationCodeExpireTime;
@@ -35,12 +36,20 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "member")
+    private List<CorrectAnswer> correctAnswerList;
+
+    @OneToMany(mappedBy = "member")
+    private List<Recommendation> recommendationList;
+
     //== 생성 메서드 ==//
     public static Member createMember(String nickname, String username, String password){
         Member member = new Member();
         member.setNickname(nickname);
         member.setUsername(username);
         member.setPassword(password);
+        member.setActivated(false);
+        member.setSolved(0);
 
         return member;
     }

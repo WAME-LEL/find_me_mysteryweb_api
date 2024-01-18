@@ -30,7 +30,7 @@ class PostServiceTest {
         Long memberId = memberService.save(member);
 
         //when
-        Long postId = postService.posting(memberId, "test", "test", "test", "test", AnswerType.multiple_answer);
+        Long postId = postService.posting(memberId, "test", "test", "test", "test", "test", AnswerType.multiple_answer);
 
         //then
         Post findOne = postService.findOne(postId);
@@ -42,7 +42,7 @@ class PostServiceTest {
         //given
         Member member = Member.createMember("test", "test", "test");
         Long memberId = memberService.save(member);
-        Long postId = postService.posting(memberId, "test", "test","test", "test",AnswerType.multiple_answer);
+        Long postId = postService.posting(memberId, "test", "test","test", "test", "test",AnswerType.multiple_answer);
 
         //when
         postService.update(postId, "update", "update");

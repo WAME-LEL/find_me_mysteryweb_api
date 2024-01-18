@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -16,7 +17,7 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
 
-    private LocalDateTime dataTime;
+    private LocalDateTime datetime;
 
     @Column(columnDefinition = "TEXT")
     private String title;
@@ -30,7 +31,13 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     private String answer;
 
-    private int recommend;
+    @Column(columnDefinition = "TEXT")
+    private String explanation;
+
+    private int recommendationCount;
+
+    private int viewCount;
+
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id")
@@ -39,17 +46,24 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private AnswerType answerType;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Recommendation> recommendationList;
+
     //== 생성 메서드 ==//
-    public static Post createPost(String title, String content, String type, String answer, AnswerType answerType, Member member){
+    public static Post createPost(String title, String content, String type, String answer, String explanation, Member member){
         Post post = new Post();
-        post.setDataTime(LocalDateTime.now());
+        post.setDatetime(LocalDateTime.now());
         post.setTitle(title);
         post.setContent(content);
         post.setType(type);
         post.setAnswer(answer);
-        post.setRecommend(0);
+        post.setExplanation(explanation);
+        post.setRecommendationCount(0);
         post.setMember(member);
-        post.setAnswerType(answerType);
+        post.setViewCount(0);
 
         return post;
     }

@@ -24,7 +24,7 @@ public class CommentApiController {
         List<Comment> commentList = commentService.findAllByPostId(request.postId);
 
         List<CommentListResponse> collect = commentList.stream()
-                .map(c -> new CommentListResponse( c.getContent(), c.getDateTime(), c.getMember().getNickname(), c.getRecommend()))
+                .map(c -> new CommentListResponse( c.getContent(), c.getDatetime(), c.getMember().getNickname(), c.getRecommend()))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new Result<>(collect));
@@ -32,7 +32,7 @@ public class CommentApiController {
 
     @PostMapping("/api/comment")
     public ResponseEntity<?> commentSave(@RequestBody CommentSaveRequest request){
-        commentService.writeComment(request.postId, request.memberId, request.content);
+        commentService.writeComment(request.postId, request.parentId, request.memberId, request.content);
 
         return ResponseEntity.ok("comment save completed");
     }
@@ -42,6 +42,17 @@ public class CommentApiController {
         commentService.delete(request.commentId);
 
         return ResponseEntity.ok("comment delete completed");
+    }
+
+    @GetMapping("/api/comments")
+    public ResponseEntity<?> getCommentsWithAllRepliesByPostId(@ModelAttribute GetCommentsWithAllRepliesRequest request) {
+        List<Comment> comments = commentService.findCommentsWithAllRepliesByPostId(request.postId);
+
+        List<CommentDto> collect = comments.stream()
+                .map(c -> toDto(c))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new Result<>(collect));
     }
 
     //==DTO==//
@@ -54,6 +65,7 @@ public class CommentApiController {
     @Data
     static class CommentSaveRequest{
         private Long postId;
+        private Long parentId;
         private Long memberId;
         private String content;
     }
@@ -75,6 +87,31 @@ public class CommentApiController {
         private LocalDateTime dateTime;
         private String nickname;
         private Integer recommend;
+    }
+
+    @Data
+    static class GetCommentsWithAllRepliesRequest{
+        private Long postId;
+    }
+
+
+    @Data
+    @AllArgsConstructor
+    static class CommentDto {
+        private Long memberId;
+        private Long commentId;
+        private String nickname;
+        private String content;
+        private LocalDateTime datetime;
+        private List<CommentDto> replies;
+    }
+
+    //==변환 메서드==//
+    private CommentDto toDto(Comment comment) {
+        List<CommentDto> replies = comment.getReplies().stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+        return new CommentDto(comment.getMember().getId(), comment.getId(), comment.getMember().getNickname(), comment.getContent(), comment.getDatetime(), replies);
     }
 
 

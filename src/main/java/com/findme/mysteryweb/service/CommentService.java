@@ -20,11 +20,17 @@ public class CommentService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
 
-    public Long writeComment(Long postId, Long memberId, String comment_content){
+    public Long writeComment(Long postId, Long parentId, Long memberId, String comment_content){
         Post post = postRepository.findOne(postId);
         Member member = memberRepository.findOne(memberId);
-
-        Comment comment = Comment.createComment(post, member, comment_content);
+        Comment parent = null;
+        Comment comment;
+        if (parentId == null){
+            comment = Comment.createComment(post, parent,  member, comment_content);
+        }else{
+            parent = commentRepository.findOne(parentId);
+            comment = Comment.createComment(post, parent,  member, comment_content);
+        }
 
         return commentRepository.save(comment);
     }
@@ -39,12 +45,28 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
+    public List<Comment> findAllByMemberId(Long memberId){
+        return commentRepository.findAllByMemberId(memberId);
+    }
+
     public List<Comment> findAllByPostId(Long postId){
         return commentRepository.findAllByPostId(postId);
     }
 
     public void delete(Long commentId){
         commentRepository.delete(commentId);
+    }
+
+    public List<Comment> findCommentsWithAllRepliesByPostId(Long postId) {
+        List<Comment> topLevelComments = commentRepository.findAllTopLevelCommentsByPostId(postId);
+        topLevelComments.forEach(this::loadRepliesRecursively);
+        return topLevelComments;
+    }
+
+    private void loadRepliesRecursively(Comment comment) {
+        List<Comment> replies = commentRepository.findRepliesByCommentId(comment.getId());
+        comment.setReplies(replies);
+        replies.forEach(this::loadRepliesRecursively); // 재귀적 호출
     }
 
 

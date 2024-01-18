@@ -30,7 +30,7 @@ class CommentRepositoryTest {
     @Test
     void save() {
         //given
-        Comment comment = Comment.createComment(new Post(), new Member(), "test");
+        Comment comment = Comment.createComment(new Post(), null, new Member(), "test");
 
         //when
         commentRepository.save(comment);
@@ -44,8 +44,8 @@ class CommentRepositoryTest {
     @Test
     void findOne() {
         //given
-        Comment comment1 = Comment.createComment(new Post(), new Member(),  "test1");
-        Comment comment2 = Comment.createComment(new Post(), new Member(), "test2");
+        Comment comment1 = Comment.createComment(new Post(), null, new Member(),  "test1");
+        Comment comment2 = Comment.createComment(new Post(), null, new Member(), "test2");
 
         //when
         commentRepository.save(comment1);
@@ -60,8 +60,8 @@ class CommentRepositoryTest {
     @Test
     void findAll() {
         //given
-        Comment comment1 = Comment.createComment(new Post(), new Member(),  "test1");
-        Comment comment2 = Comment.createComment(new Post(), new Member(),  "test2");
+        Comment comment1 = Comment.createComment(new Post(),null, new Member(),  "test1");
+        Comment comment2 = Comment.createComment(new Post(),null, new Member(),  "test2");
 
         //when
         commentRepository.save(comment1);
@@ -76,12 +76,12 @@ class CommentRepositoryTest {
     @Test
     void findAllByPostId() {
         //given
-        Post post1 = Post.createPost("post", "post", "test", "test", AnswerType.multiple_answer, new Member());
-        Post post2 = Post.createPost("post", "post", "test", "test", AnswerType.multiple_answer, new Member());
+        Post post1 = Post.createPost("post", "post", "test", "test", "test", new Member());
+        Post post2 = Post.createPost("post", "post", "test", "test", "test", new Member());
 
-        Comment comment1 = Comment.createComment(post1, new Member(),  "test1");
-        Comment comment2 = Comment.createComment(post1, new Member(),  "test2");
-        Comment comment3 = Comment.createComment(post2, new Member(),  "test3");
+        Comment comment1 = Comment.createComment(post1,null, new Member(),  "test1");
+        Comment comment2 = Comment.createComment(post1,null, new Member(),  "test2");
+        Comment comment3 = Comment.createComment(post2,null, new Member(),  "test3");
 
         //when
         commentRepository.save(comment1);
@@ -98,7 +98,7 @@ class CommentRepositoryTest {
     @Test
     void delete() {
         //given
-        Comment comment1 = Comment.createComment(new Post(), new Member(),  "test1");
+        Comment comment1 = Comment.createComment(new Post(),null, new Member(),  "test1");
 
         //when
         commentRepository.save(comment1);

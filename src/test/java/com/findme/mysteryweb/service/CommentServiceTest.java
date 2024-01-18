@@ -27,10 +27,10 @@ class CommentServiceTest {
         //given
 
         Long memberId = memberService.save(Member.createMember("test", "test", "test"));
-        Long postId = postService.posting(memberId, "test", "test", "test", "test", AnswerType.multiple_answer);
+        Long postId = postService.posting(memberId, "test", "test", "test", "test", "test", AnswerType.multiple_answer);
 
         //when
-        Long commentId = commentService.writeComment(postId, memberId, "content");
+        Long commentId = commentService.writeComment(postId, null, memberId, "content");
 
         //then
         Comment findOne = commentService.findOne(commentId);

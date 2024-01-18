@@ -22,7 +22,7 @@ public class CorrectAnswer {
     private Post post;
 
     //==생성 메서드==//
-    public static CorrectAnswer correctAnswer (Member member, Post post){
+    public static CorrectAnswer createCorrectAnswer (Member member, Post post){
         CorrectAnswer correctAnswer = new CorrectAnswer();
         correctAnswer.setMember(member);
         correctAnswer.setPost(post);

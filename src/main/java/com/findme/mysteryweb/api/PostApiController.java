@@ -4,13 +4,16 @@ package com.findme.mysteryweb.api;
 import com.amazonaws.services.s3.AmazonS3;
 import com.findme.mysteryweb.domain.AnswerType;
 import com.findme.mysteryweb.domain.Comment;
+import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
 import com.findme.mysteryweb.service.CommentService;
+import com.findme.mysteryweb.service.MemberService;
 import com.findme.mysteryweb.service.PostService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,19 +21,24 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @CrossOrigin(origins = "http://localhost:3000")
 public class PostApiController {
     private final PostService postService;
     private final CommentService commentService;
+    private final MemberService memberService;
 
     private final AmazonS3 amazonS3;
 
@@ -40,14 +48,17 @@ public class PostApiController {
     @GetMapping("/api/post")
     public ResponseEntity<?> getPost(@ModelAttribute GetPostRequest request){
         Post post = postService.findOne(request.postId);
+        postService.increaseViewCount(request.postId);
 
-        PostDto postDto = new PostDto(post.getId(), post.getMember().getNickname(), post.getTitle(), post.getContent(), post.getType(), post.getRecommend(), post.getDataTime());
+        PostDto postDto = new PostDto(post.getId(), post.getMember().getNickname(), post.getTitle(), post.getContent(), post.getType(), post.getDatetime(), post.getViewCount(), post.getRecommendationCount());
 
         List<Comment> commentList = commentService.findAllByPostId(post.getId());
 
         List<CommentDto> collect = commentList.stream()
-                .map(c -> new CommentDto(c.getId(), c.getMember().getId(), c.getMember().getNickname(), c.getContent(), c.getRecommend(), c.getDateTime()))
+                .map(c -> new CommentDto(c.getId(), c.getMember().getId(), c.getMember().getNickname(), c.getContent(), c.getRecommend(), c.getDatetime()))
                 .collect(Collectors.toList());
+
+
 
 
         return ResponseEntity.ok(new Result<>(new GetPostResponse(postDto, collect)));
@@ -56,37 +67,74 @@ public class PostApiController {
     @GetMapping("/api/posts")
     public ResponseEntity<?> postList(@ModelAttribute PostListRequest request) {
         List<Post> postList;
+        Integer count = request.getCount();
 
         String type = request.type;
-        String title = request.title;
+        String searchTerm = request.searchTerm;
+        String searchBy = request.searchBy;
 
-        if (type != null && !type.isEmpty() && request.getTitle() != null && !request.getTitle().isEmpty()) {
+
+        if (type != null && !type.isEmpty() && searchTerm != null && !searchTerm.isEmpty()) {
             // 여기서는 type과 title이 모두 제공되었을 때의 처리 방식을 정의합니다.
             // 예를 들어, 두 조건을 모두 만족하는 Post를 찾을 수 있는 서비스 메소드를 호출할 수 있습니다.
-            postList = postService.findAllByTypeAndTitle(type, title);
+            if(Objects.equals(searchBy, "title")){
+                postList = postService.findAllByTypeAndTitle(type, searchTerm);
+            } else if (Objects.equals(searchBy, "author")) {
+                postList = postService.findAllByTypeAndAuthor(type, searchTerm);
+            }else if(Objects.equals(searchBy, "titleAndContent")){
+                postList = postService.findAllByTypeAndTitleOrContent(type, searchTerm, searchTerm);
+            }else{
+                postList = postService.findAll();
+            }
+
         } else if (type != null && !type.isEmpty()) {
             postList = postService.findAllByType(type);
-        } else if (title != null && !title.isEmpty()) {
-            postList = postService.findAllByTitle(title);
+        } else if (searchTerm != null && !searchTerm.isEmpty()) {
+            if(Objects.equals(searchBy, "title")){
+                postList = postService.findAllByTitle(searchTerm);
+            }else if(Objects.equals(searchBy, "author")) {
+                postList = postService.findAllByAuthor(searchTerm);
+            }else{
+                postList = postService.findAll();
+            }
+
         } else {
-            postList = postService.findAll();
+            if(count != null){
+                postList = postService.findCountOrderByView(count);
+            }else{
+                postList = postService.findAll();
+            }
+
         }
 
         List<PostListResponse> collect = postList.stream()
-                .map(p -> new PostListResponse(p.getId(), p.getTitle(), p.getContent(), p.getMember().getId(), p.getMember().getNickname(), p.getType(), p.getDataTime(), p.getRecommend()))
+                .map(p -> new PostListResponse(p.getId(), p.getTitle(), p.getContent(), p.getMember().getId(), p.getMember().getNickname(), p.getType(), p.getDatetime(), p.getCommentList().size(), p.getViewCount(), p.getRecommendationCount()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new Result<>(collect));
+    }
+
+    @GetMapping("/api/post/home")
+    public ResponseEntity<?> homePostList(@ModelAttribute PostListRequest request) {
+        List<Post> postList = postService.findCountOrderByDatetime(request.type, request.count);
+
+        List<PostListResponse> collect = postList.stream()
+                .map(p -> new PostListResponse(p.getId(), p.getTitle(), p.getContent(), p.getMember().getId(), p.getMember().getNickname(), p.getType(), p.getDatetime(), p.getCommentList().size(), p.getViewCount(), p.getRecommendationCount()))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new Result<>(collect));
     }
 
 
+
     @PostMapping("/api/post")
-    public ResponseEntity<?> posting(@RequestBody @Valid PostingRequest request, BindingResult bindingResult) {
+    public ResponseEntity<?> posting(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid PostingRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
+        Member member = memberService.findOneByUsername(userDetails.getUsername());
 
-        postService.posting(request.memberId, request.title, request.content, request.type, request.answer, request.answerType);
+        postService.posting(member.getId(), request.title, request.content, request.type, request.answer, request.explanation, request.answerType);
 
         return ResponseEntity.ok("Posting completed");
 
@@ -115,9 +163,27 @@ public class PostApiController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting file");
         }
-
-
     }
+
+    @GetMapping("/api/quiz/rank")
+    public ResponseEntity<?> quizRank(@ModelAttribute QuizRankRequest request){
+        List<Post> postList;
+
+        if (Objects.equals(request.criteria, "조회")){
+            postList = postService.findAllOrderByViewCount();
+        }else if(Objects.equals(request.criteria, "추천")){
+            postList = postService.findAllOrderByRecommendationCount();
+        }else{
+            postList = postService.findAll();
+        }
+
+        List<PostDto> collect = postList.stream()
+                .map(p -> new PostDto(p.getId(), p.getMember().getNickname(), p.getTitle(), p.getContent(), p.getType(), p.getDatetime(), p.getViewCount(), p.getRecommendationCount()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new Result<>(collect));
+    }
+
 
 
     //==DTO==//
@@ -148,8 +214,9 @@ public class PostApiController {
         private String title;
         private String content;
         private String type;
-        private int recommend;
-        private LocalDateTime dataTime;
+        private LocalDateTime datetime;
+        private int viewCount;
+        private int recommendationCount;
     }
 
     @Data
@@ -160,17 +227,17 @@ public class PostApiController {
         private String nickname;
         private String content;
         private int recommend;
-        private LocalDateTime dateTime;
+        private LocalDateTime datetime;
     }
 
 
 
     @Data
     static class PostingRequest {
-        private Long memberId;
         private String title;
         private String content;
         private String answer;
+        private String explanation;
         private String type;
         private AnswerType answerType;
     }
@@ -178,7 +245,9 @@ public class PostApiController {
     @Data
     static class PostListRequest{
         private String type;
-        private String title;
+        private String searchTerm;
+        private String searchBy;
+        private Integer count;
     }
 
     @Data
@@ -190,13 +259,20 @@ public class PostApiController {
         private Long memberId;
         private String nickname;
         private String type;
-        private LocalDateTime dateTime;
-        private Integer recommend;
+        private LocalDateTime datetime;
+        private int commentCount;
+        private int viewCount;
+        private int recommendationCount;
     }
 
     @Data
     static class PostDeleteRequest{
         private Long postId;
+    }
+
+    @Data
+    static class QuizRankRequest{
+        private String criteria;
     }
 
 
