@@ -15,7 +15,7 @@ import javax.crypto.SecretKey;
 @Component
 public class JwtUtil {
 
-    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final String secretKey = "detectivesnightssecretkeyisveryimportantandverylongandverygoodilovemysecretkey";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -41,10 +41,9 @@ public class JwtUtil {
     public String generateAccessToken(String username) {
         return Jwts.builder().setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 12)) // 10시간 유효
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 12)) // 12시간 유효
                 .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
-
     public String generateRefreshToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -53,7 +52,6 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
-
     public Boolean validateRefreshToken(String token) {
         // 추가적인 리프레시 토큰 검증 로직
         return (!isTokenExpired(token));

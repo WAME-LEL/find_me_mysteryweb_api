@@ -53,7 +53,7 @@ public class Review {
         review.setParent(parent);
         review.setBook(book);
         review.setMember(member);
-        review.setDatetime(LocalDateTime.now());
+        review.setDatetime(LocalDateTime.now().plusHours(9));
         review.setRecommendationCount(0);
 
         return review;

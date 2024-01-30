@@ -3,8 +3,8 @@ package com.findme.mysteryweb.service;
 
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.repository.MemberRepository;
+import jakarta.persistence.Tuple;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +31,10 @@ public class MemberService {
         return memberRepository.findOneByEmail(email);
     }
 
+    public Member findOneByPostId(Long postId){
+        return memberRepository.findOneByPostId(postId);
+    }
+
     public Member findOneByEmailAndUsername(String email, String username){
         return memberRepository.findOneByEmailAndUsername(email, username);
     }
@@ -39,11 +43,17 @@ public class MemberService {
         return memberRepository.findOneByUsername(username);
     }
 
-    public List<Member> findAllOrderBySolved(){
+
+
+    public List<Tuple> findAllOrderBySolved(){
         return memberRepository.findAllOrderBySolved();
     }
 
-    public List<Member> findFiveOrderBySolved(int count){
+    public List<Tuple> findAllByCorrectAnswer(Long postId){
+        return memberRepository.findAllByCorrectAnswer(postId);
+    }
+
+    public List<Tuple> findCountOrderBySolved(int count){
         return memberRepository.findCountOrderBySolved(count);
     }
 
@@ -68,12 +78,6 @@ public class MemberService {
     public void activateMember(Long memberId){
         Member member = memberRepository.findOne(memberId);
         member.setActivated(true);
-    }
-
-    @Transactional
-    public void increaseSolved(Long memberId){
-        Member member = memberRepository.findOne(memberId);
-        member.setSolved(member.getSolved() + 1);
     }
 
     public boolean duplicateNicknameTest(String nickname){

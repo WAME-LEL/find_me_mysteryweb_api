@@ -23,19 +23,19 @@ public class BookRepository {
     }
 
     public List<Book> findAllByTitle(String title){
-        return em.createQuery("select b from Book b where b.title like :title order by b.recommendationCount desc", Book.class)
+        return em.createQuery("select b from Book b where b.title like :title order by b.recommendationCount desc, b.id desc", Book.class)
                 .setParameter("title", "%" + title + "%")
                 .getResultList();
     }
 
     public List<Book> findAllByAuthor(String author){
-        return em.createQuery("select b from Book b where b.author like :author order by b.recommendationCount desc", Book.class)
+        return em.createQuery("select b from Book b where b.author like :author order by b.recommendationCount desc, b.id desc", Book.class)
                 .setParameter("author", "%" + author + "%")
                 .getResultList();
     }
 
     public List<Book> findAllByRecommendCount(){
-        return em.createQuery("select b from Book b order by b.recommendationCount desc", Book.class)
+        return em.createQuery("select b from Book b order by b.recommendationCount desc, b.id desc", Book.class)
                 .getResultList();
     }
 

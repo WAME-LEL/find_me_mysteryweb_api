@@ -2,12 +2,15 @@ package com.findme.mysteryweb.api;
 
 
 import com.findme.mysteryweb.domain.Comment;
+import com.findme.mysteryweb.domain.CorrectAnswer;
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
 import com.findme.mysteryweb.jwt.JwtUtil;
 import com.findme.mysteryweb.service.CommentService;
+import com.findme.mysteryweb.service.CorrectAnswerService;
 import com.findme.mysteryweb.service.MemberService;
 import com.findme.mysteryweb.service.PostService;
+import jakarta.persistence.Tuple;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +23,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +34,12 @@ import java.util.stream.Collectors;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"https://detectivesnight.com", "https://www.detectivesnight.com", "http://detectivesnight.com", "http://www.detectivesnight.com"})
 public class MemberApiController {
     private final MemberService memberService;
     private final PostService postService;
     private final CommentService commentService;
+    private final CorrectAnswerService correctAnswerService;
 
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
@@ -69,7 +72,6 @@ public class MemberApiController {
         } catch (AuthenticationException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
         }
-//        Member member = memberService.singIn(request.username, request.password);
 
         Member member = memberService.findOneByUsername(request.username);
         String accessToken = jwtUtil.generateAccessToken(request.username);
@@ -117,6 +119,7 @@ public class MemberApiController {
         Member member = memberService.findOneByUsername(userDetails.getUsername());
         List<Post> postList = postService.findAllByMemberId(member.getId());
         List<Comment> commentList = commentService.findAllByMemberId(member.getId());
+        List<CorrectAnswer> correctAnswerList = correctAnswerService.findAllOrderByDatetime(member.getId());
         List<PostDto> postListCollect = postList.stream()
                 .map(p -> new PostDto(p.getId(), p.getTitle(), p.getContent(), p.getType(), p.getRecommendationCount(), p.getDatetime(), p.getCommentList().size()))
                 .collect(Collectors.toList());
@@ -126,7 +129,18 @@ public class MemberApiController {
                 .collect(Collectors.toList());
 
 
-        UserInfoResponse userInfo = new UserInfoResponse(member.getNickname(), member.getEmail(), member.getSolved(), member.getPosts().size(), member.getComments().size(), postListCollect, commentListCollect);
+        List<CorrectAnswerDto> correctAnswerListCollect = correctAnswerList.stream()
+                .map(ca -> new CorrectAnswerDto(ca.getId(), ca.getPost().getId(), ca.getPost().getTitle(), ca.getPost().getCommentList().size()))
+                .collect(Collectors.toList());
+
+        UserInfoResponse userInfo = new UserInfoResponse(member.getNickname(),
+                member.getEmail(),
+                member.getCorrectAnswerList().size(),
+                member.getPosts().size(),
+                member.getComments().size(),
+                postListCollect,
+                commentListCollect,
+                correctAnswerListCollect);
 
 
         return ResponseEntity.ok(new Result<>(userInfo));
@@ -134,18 +148,22 @@ public class MemberApiController {
 
     @GetMapping("/api/member/rank")
     public ResponseEntity<?> userRank(@RequestParam(value = "count", required = false) Integer count){
-        List<Member> orderBySolved;
+        List<Tuple> orderBySolved;
 
         if (count != null) {
-            orderBySolved = memberService.findFiveOrderBySolved(count);
+            orderBySolved = memberService.findCountOrderBySolved(count);
         } else {
             orderBySolved = memberService.findAllOrderBySolved();
         }
 
         List<UserRankResponse> collect = orderBySolved.stream()
-                .map(m -> new UserRankResponse(m.getNickname(), m.getSolved(), m.getPosts().size(), m.getComments().size()))
-                .collect(Collectors.toList());
+                .map(m -> {
+                    Member member = m.get(0, Member.class);
+                    Long correctAnswerCount = m.get(1, Long.class);
 
+                    return new UserRankResponse(member.getNickname(), correctAnswerCount, member.getPosts().size(), member.getComments().size());
+                })
+                .collect(Collectors.toList());
 
         return ResponseEntity.ok(new Result<>(collect));
     }
@@ -181,6 +199,22 @@ public class MemberApiController {
         return ResponseEntity.ok("Update completed");
     }
 
+    @GetMapping("/api/member/solved")
+    public ResponseEntity<?> getResolvedMember(@ModelAttribute GetResolvedMemberRequest request){
+        List<Tuple> memberList = memberService.findAllByCorrectAnswer(request.postId);
+
+
+        List<GetResolvedMemberResponse> collect = memberList.stream()
+                .map(m -> {
+                    Member member = m.get(0, Member.class);
+                    CorrectAnswer correctAnswer = m.get(1, CorrectAnswer.class);
+
+                    return new GetResolvedMemberResponse(member.getNickname(), correctAnswer.getDatetime());
+                }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(new GetResolvedMemberResult<>(collect, collect.size()));
+    }
+
 
 
     //==DTO==//
@@ -189,6 +223,13 @@ public class MemberApiController {
     @AllArgsConstructor
     static class Result<T>{
         private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class GetResolvedMemberResult<T>{
+        private T data;
+        private int solvedMemberCount;
     }
 
     @Data
@@ -229,6 +270,7 @@ public class MemberApiController {
         private int commentCount;
         private List<PostDto> postList;
         private List<CommentDto> commentList;
+        private List<CorrectAnswerDto> correctAnswerList;
     }
 
     @Data
@@ -253,12 +295,21 @@ public class MemberApiController {
         private Long postId;
     }
 
+    @Data
+    @AllArgsConstructor
+    static class CorrectAnswerDto{
+        private Long correctAnswerId;
+        private Long postId;
+        private String postTitle;
+        private int commentCount;
+    }
+
 
     @Data
     @AllArgsConstructor
     static class UserRankResponse{
         private String nickname;
-        private int solved;
+        private Long correctAnswerCount;
         private int postCount;
         private int commentCount;
     }
@@ -312,6 +363,17 @@ public class MemberApiController {
         private String refreshToken;
     }
 
+    @Data
+    static class GetResolvedMemberRequest{
+        private Long postId;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class GetResolvedMemberResponse{
+        private String nickname;
+        private LocalDateTime datetime;
+    }
 
 
 }

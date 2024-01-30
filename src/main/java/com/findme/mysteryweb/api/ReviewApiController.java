@@ -13,22 +13,27 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"https://detectivesnight.com", "https://www.detectivesnight.com", "http://detectivesnight.com", "http://www.detectivesnight.com"})
 public class ReviewApiController {
     private final ReviewService reviewService;
+    private final MemberService memberService;
 
     @PostMapping("/api/review")
-    public ResponseEntity<?> writeReview(@RequestBody WriteReviewRequest request) {
-        reviewService.save(request.bookId, request.parentId, request.memberId, request.content);
+    public ResponseEntity<?> writeReview(@AuthenticationPrincipal UserDetails userDetails, @RequestBody WriteReviewRequest request) {
+        Member member = memberService.findOneByUsername(userDetails.getUsername());
+        reviewService.save(request.bookId, request.parentId, member.getId(), request.content);
 
         return ResponseEntity.ok("Write review completed");
     }
@@ -45,7 +50,13 @@ public class ReviewApiController {
     }
 
     @DeleteMapping("/api/review")
-    public ResponseEntity<?> deleteReview(@ModelAttribute DeleteReviewRequest request){
+    public ResponseEntity<?> deleteReview(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute DeleteReviewRequest request){
+        Member member = memberService.findOneByUsername(userDetails.getUsername());
+        Review review = reviewService.findOne(request.reviewId);
+        if(!Objects.equals(member.getId(), review.getMember().getId())){
+            return ResponseEntity.ok("No permission");
+        }
+
         reviewService.delete(request.reviewId);
 
         return ResponseEntity.ok("Delete review completed");
@@ -75,7 +86,6 @@ public class ReviewApiController {
     static class WriteReviewRequest{
         private Long bookId;
         private Long parentId;
-        private Long memberId;
         private String content;
     }
 

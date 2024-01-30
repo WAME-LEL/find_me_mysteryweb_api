@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @Repository
@@ -31,8 +30,9 @@ public class CorrectAnswerRepository {
         return resultList.isEmpty() ? null : resultList.get(0);
     }
 
-    public List<CorrectAnswer> findAll(){
-        return em.createQuery("select ca from CorrectAnswer ca", CorrectAnswer.class)
+    public List<CorrectAnswer> findAllOrderByDatetime(Long memberId){
+        return em.createQuery("select ca from CorrectAnswer ca where ca.member.id = :memberId order by ca.datetime", CorrectAnswer.class)
+                .setParameter("memberId", memberId)
                 .getResultList();
     }
 

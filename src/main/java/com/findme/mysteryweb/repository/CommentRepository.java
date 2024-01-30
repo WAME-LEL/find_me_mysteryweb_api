@@ -2,9 +2,7 @@ package com.findme.mysteryweb.repository;
 
 
 import com.findme.mysteryweb.domain.Comment;
-import com.findme.mysteryweb.domain.Post;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -15,10 +13,10 @@ import java.util.List;
 public class CommentRepository {
     private final EntityManager em;
 
-    public Long save(Comment comment){
+    public Comment save(Comment comment){
         em.persist(comment);
 
-        return comment.getId();
+        return comment;
     }
 
     public Comment findOne(Long commentId){

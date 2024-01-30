@@ -2,7 +2,6 @@ package com.findme.mysteryweb.api;
 
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.findme.mysteryweb.domain.AnswerType;
 import com.findme.mysteryweb.domain.Comment;
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
@@ -34,7 +33,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"https://detectivesnight.com", "https://www.detectivesnight.com", "http://detectivesnight.com", "http://www.detectivesnight.com"})
 public class PostApiController {
     private final PostService postService;
     private final CommentService commentService;
@@ -50,7 +49,7 @@ public class PostApiController {
         Post post = postService.findOne(request.postId);
         postService.increaseViewCount(request.postId);
 
-        PostDto postDto = new PostDto(post.getId(), post.getMember().getNickname(), post.getTitle(), post.getContent(), post.getType(), post.getDatetime(), post.getViewCount(), post.getRecommendationCount());
+        PostDto postDto = new PostDto(post.getId(), post.getMember().getId(), post.getMember().getNickname(), post.getTitle(), post.getContent(), post.getType(), post.getDatetime(), post.getViewCount(), post.getRecommendationCount());
 
         List<Comment> commentList = commentService.findAllByPostId(post.getId());
 
@@ -59,9 +58,23 @@ public class PostApiController {
                 .collect(Collectors.toList());
 
 
-
-
         return ResponseEntity.ok(new Result<>(new GetPostResponse(postDto, collect)));
+    }
+
+    @GetMapping("/api/post/update")
+    public ResponseEntity<?> getPostToUpdate(@ModelAttribute GetPostRequest request){
+        Post post = postService.findOne(request.postId);
+        postService.increaseViewCount(request.postId);
+
+        UpdatePostDto UpdatePostDto = new UpdatePostDto(post.getId(), post.getMember().getId(), post.getMember().getNickname(), post.getTitle(), post.getContent(), post.getType(), post.getAnswer(), post.getExplanation(), post.getDatetime(), post.getViewCount(), post.getRecommendationCount());
+
+        List<Comment> commentList = commentService.findAllByPostId(post.getId());
+
+        List<CommentDto> collect = commentList.stream()
+                .map(c -> new CommentDto(c.getId(), c.getMember().getId(), c.getMember().getNickname(), c.getContent(), c.getRecommend(), c.getDatetime()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new Result<>(new GetPostToUpdateResponse(UpdatePostDto, collect)));
     }
 
     @GetMapping("/api/posts")
@@ -81,7 +94,7 @@ public class PostApiController {
                 postList = postService.findAllByTypeAndTitle(type, searchTerm);
             } else if (Objects.equals(searchBy, "author")) {
                 postList = postService.findAllByTypeAndAuthor(type, searchTerm);
-            }else if(Objects.equals(searchBy, "titleAndContent")){
+            }else if(Objects.equals(searchBy, "titleOrContent")){
                 postList = postService.findAllByTypeAndTitleOrContent(type, searchTerm, searchTerm);
             }else{
                 postList = postService.findAll();
@@ -100,7 +113,7 @@ public class PostApiController {
 
         } else {
             if(count != null){
-                postList = postService.findCountOrderByView(count);
+                postList = postService.findCountOrderByRecommendationCount(count);
             }else{
                 postList = postService.findAll();
             }
@@ -134,15 +147,36 @@ public class PostApiController {
         }
         Member member = memberService.findOneByUsername(userDetails.getUsername());
 
-        postService.posting(member.getId(), request.title, request.content, request.type, request.answer, request.explanation, request.answerType);
+        postService.posting(member.getId(), request.title, request.content, request.type, request.answer, request.explanation);
 
         return ResponseEntity.ok("Posting completed");
 
     }
+    @PutMapping("/api/post")
+    public ResponseEntity<?> editPosting(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid PostingRequest request, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
+        Member member = memberService.findOneByUsername(userDetails.getUsername());
+        Member postMember = memberService.findOneByPostId(request.postId);
+
+        if(Objects.equals(member, postMember)){
+            postService.update(request.postId, request.title, request.content, request.answer, request.explanation, request.type);
+            return ResponseEntity.ok("Posting completed");
+        }else{
+            return ResponseEntity.ok("other member");
+        }
+
+    }
 
     @DeleteMapping("/api/post")
-    public ResponseEntity<?> postDelete(@ModelAttribute PostDeleteRequest request){
+    public ResponseEntity<?> postDelete(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute PostDeleteRequest request){
         Post post = postService.findOne(request.postId);
+        Member member = memberService.findOneByUsername(userDetails.getUsername());
+        if(!Objects.equals(post.getMember().getId(), member.getId())){
+            return ResponseEntity.ok("No permission");
+        }
+
         String content = post.getContent();
         Document doc = Jsoup.parse(content);
         Elements imgElements = doc.select("img");
@@ -170,15 +204,26 @@ public class PostApiController {
         List<Post> postList;
 
         if (Objects.equals(request.criteria, "조회")){
-            postList = postService.findAllOrderByViewCount();
+            postList = postService.findAllOrderByViewCount(request.type);
         }else if(Objects.equals(request.criteria, "추천")){
-            postList = postService.findAllOrderByRecommendationCount();
+            postList = postService.findAllOrderByRecommendationCount(request.type);
         }else{
             postList = postService.findAll();
         }
 
         List<PostDto> collect = postList.stream()
-                .map(p -> new PostDto(p.getId(), p.getMember().getNickname(), p.getTitle(), p.getContent(), p.getType(), p.getDatetime(), p.getViewCount(), p.getRecommendationCount()))
+                .map(p -> new PostDto(p.getId(), p.getMember().getId(), p.getMember().getNickname(), p.getTitle(), p.getContent(), p.getType(), p.getDatetime(), p.getViewCount(), p.getRecommendationCount()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new Result<>(collect));
+    }
+
+    @GetMapping("/api/quiz/rank/count")
+    public ResponseEntity<?> quizRankByCount(@ModelAttribute QuizRankByCountRequest request){
+        List<Post> postList = postService.findCountByTypeOrderByRecommendationCount(request.type, request.count);
+
+        List<PostListResponse> collect = postList.stream()
+                .map(p -> new PostListResponse(p.getId(), p.getTitle(), p.getContent(), p.getMember().getId(), p.getMember().getNickname(), p.getType(), p.getDatetime(), p.getCommentList().size(), p.getViewCount(), p.getRecommendationCount()))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new Result<>(collect));
@@ -210,6 +255,7 @@ public class PostApiController {
     @AllArgsConstructor
     static class PostDto{
         private Long Id;
+        private Long memberId;
         private String nickname;
         private String title;
         private String content;
@@ -218,6 +264,30 @@ public class PostApiController {
         private int viewCount;
         private int recommendationCount;
     }
+
+    @Data
+    @AllArgsConstructor
+    static class UpdatePostDto{
+        private Long Id;
+        private Long memberId;
+        private String nickname;
+        private String title;
+        private String content;
+        private String type;
+        private String answer;
+        private String explanation;
+        private LocalDateTime datetime;
+        private int viewCount;
+        private int recommendationCount;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class GetPostToUpdateResponse{
+        private UpdatePostDto post;
+        private List<CommentDto> commentList;
+    }
+
 
     @Data
     @AllArgsConstructor
@@ -234,12 +304,12 @@ public class PostApiController {
 
     @Data
     static class PostingRequest {
+        private Long postId;
         private String title;
         private String content;
         private String answer;
         private String explanation;
         private String type;
-        private AnswerType answerType;
     }
 
     @Data
@@ -273,6 +343,13 @@ public class PostApiController {
     @Data
     static class QuizRankRequest{
         private String criteria;
+        private String type;
+    }
+
+    @Data
+    static class QuizRankByCountRequest{
+        private String type;
+        private int count;
     }
 
 

@@ -3,7 +3,6 @@ package com.findme.mysteryweb.Repository;
 import com.findme.mysteryweb.domain.Comment;
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
-import com.findme.mysteryweb.domain.AnswerType;
 import com.findme.mysteryweb.repository.CommentRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;

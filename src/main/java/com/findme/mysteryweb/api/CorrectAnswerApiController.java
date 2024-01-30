@@ -2,6 +2,7 @@ package com.findme.mysteryweb.api;
 
 
 import com.findme.mysteryweb.domain.CorrectAnswer;
+import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
 import com.findme.mysteryweb.service.CorrectAnswerService;
 import com.findme.mysteryweb.service.MemberService;
@@ -11,15 +12,16 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@Slf4j
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"https://detectivesnight.com", "https://www.detectivesnight.com", "http://detectivesnight.com", "http://www.detectivesnight.com"})
 public class CorrectAnswerApiController {
     private final CorrectAnswerService correctAnswerService;
     private final PostService postService;
@@ -27,8 +29,9 @@ public class CorrectAnswerApiController {
 
 
     @GetMapping("/api/correct")
-    public ResponseEntity<?> correctAnswer(@ModelAttribute CorrectAnswerRequest request){
-        CorrectAnswer correctAnswer = correctAnswerService.findOneByPostAndMember(request.postId, request.memberId);
+    public ResponseEntity<?> correctAnswer(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute CorrectAnswerRequest request){
+        Member member = memberService.findOneByUsername(userDetails.getUsername());
+        CorrectAnswer correctAnswer = correctAnswerService.findOneByPostAndMember(request.postId, member.getId());
         if(correctAnswer == null){
             return ResponseEntity.ok(new Result<>(new CorrectAnswerResponse("false", "", "")));
         }else{
@@ -39,8 +42,9 @@ public class CorrectAnswerApiController {
     }
 
     @GetMapping("/api/corrects")
-    public ResponseEntity<?> correctAnswerList(@ModelAttribute CorrectAnswerListRequest request){
-        List<CorrectAnswer> correctAnswerList = correctAnswerService.findAllByMember(request.memberId);
+    public ResponseEntity<?> correctAnswerList(@AuthenticationPrincipal UserDetails userDetails){
+        Member member = memberService.findOneByUsername(userDetails.getUsername());
+        List<CorrectAnswer> correctAnswerList = correctAnswerService.findAllByMember(member.getId());
 
         List<CorrectAnswerListResponse> collect = correctAnswerList.stream()
                 .map(ca -> new CorrectAnswerListResponse(ca.getPost().getId(), ca.getPost().getTitle()))
@@ -50,17 +54,16 @@ public class CorrectAnswerApiController {
     }
 
     @PostMapping("/api/correct")
-    public ResponseEntity<?> checkCorrectAnswer(@RequestBody checkCorrectAnswerRequest request){
+    public ResponseEntity<?> checkCorrectAnswer(@AuthenticationPrincipal UserDetails userDetails, @RequestBody checkCorrectAnswerRequest request){
         Post post = postService.findOne(request.postId);
-
+        Member member = memberService.findOneByUsername(userDetails.getUsername());
         try{
             if(post.getAnswer().equals(request.answer)){
-                correctAnswerService.save(request.memberId, request.postId);
-                memberService.increaseSolved(request.memberId);
-                return ResponseEntity.ok("true");
+                correctAnswerService.save(member.getId(), request.postId);
+                return ResponseEntity.ok(true);
             }
             else{
-                return ResponseEntity.ok("false");
+                return ResponseEntity.ok(false);
             }
 
         }catch(Exception e){
@@ -80,11 +83,6 @@ public class CorrectAnswerApiController {
 
 
     @Data
-    static class CorrectAnswerListRequest{
-        private Long memberId;
-    }
-
-    @Data
     @AllArgsConstructor
     static class CorrectAnswerListResponse{
         private Long postId;
@@ -93,7 +91,6 @@ public class CorrectAnswerApiController {
 
     @Data
     static class CorrectAnswerRequest{
-        private Long memberId;
         private Long postId;
     }
 
@@ -109,7 +106,6 @@ public class CorrectAnswerApiController {
     @Data
     static class checkCorrectAnswerRequest{
         private Long postId;
-        private Long memberId;
         private String answer;
     }
 

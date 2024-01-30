@@ -37,6 +37,10 @@ public class RecommendationService {
         return recommendationRepository.findAllByMemberId(memberId);
     }
 
+    public List<Recommendation> findAllByMemberIdAtBookOrPost(Long memberId, String recommendationType){
+        return recommendationRepository.findAllByMemberIdAtBookOrPost(memberId, recommendationType);
+    }
+
     @Transactional
     public void delete(Long memberId, Long postId, Long bookId){
         Recommendation recommendation = recommendationRepository.findOneByMemberIdAndOtherId(memberId, postId, bookId);

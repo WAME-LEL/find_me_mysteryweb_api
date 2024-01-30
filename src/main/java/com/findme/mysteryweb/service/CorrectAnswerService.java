@@ -38,8 +38,8 @@ public class CorrectAnswerService {
         return correctAnswerRepository.findOneByPostAndMember(postId, memberId);
     }
 
-    public List<CorrectAnswer> findAll(){
-        return correctAnswerRepository.findAll();
+    public List<CorrectAnswer> findAllOrderByDatetime(Long memberId){
+        return correctAnswerRepository.findAllOrderByDatetime(memberId);
     }
 
     public List<CorrectAnswer> findAllByMember(Long memberId){

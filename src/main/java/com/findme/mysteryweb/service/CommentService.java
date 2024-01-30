@@ -2,9 +2,11 @@ package com.findme.mysteryweb.service;
 
 import com.findme.mysteryweb.domain.Comment;
 import com.findme.mysteryweb.domain.Member;
+import com.findme.mysteryweb.domain.Notification;
 import com.findme.mysteryweb.domain.Post;
 import com.findme.mysteryweb.repository.CommentRepository;
 import com.findme.mysteryweb.repository.MemberRepository;
+import com.findme.mysteryweb.repository.NotificationRepository;
 import com.findme.mysteryweb.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,18 +21,23 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
+    private final NotificationRepository notificationRepository;
 
-    public Long writeComment(Long postId, Long parentId, Long memberId, String comment_content){
+    public Comment writeComment(Long postId, Long parentId, Long senderId, Long receiverId, String comment_content){
         Post post = postRepository.findOne(postId);
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberRepository.findOne(senderId);
         Comment parent = null;
         Comment comment;
+        Notification notification;
         if (parentId == null){
             comment = Comment.createComment(post, parent,  member, comment_content);
+//            notification = Notification.createNotification(senderId, receiverId, post.getTitle() + " 글에 댓글이 달렸습니다");
         }else{
             parent = commentRepository.findOne(parentId);
             comment = Comment.createComment(post, parent,  member, comment_content);
+//            notification = Notification.createNotification(senderId, parent.getMember().getId(), post.getTitle() + " 댓글에 대댓글이 달렸습니다");
         }
+//        notificationRepository.save(notification);
 
         return commentRepository.save(comment);
     }

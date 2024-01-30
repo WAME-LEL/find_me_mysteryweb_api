@@ -4,11 +4,11 @@ package com.findme.mysteryweb.api;
 import com.findme.mysteryweb.domain.Book;
 import com.findme.mysteryweb.domain.Review;
 import com.findme.mysteryweb.service.BookService;
+import com.findme.mysteryweb.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"https://detectivesnight.com", "https://www.detectivesnight.com", "http://detectivesnight.com", "http://www.detectivesnight.com"})
 public class BookApiController {
 
     private final BookService bookService;

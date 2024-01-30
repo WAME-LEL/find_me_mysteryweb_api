@@ -50,7 +50,7 @@ public class Comment {
         comment.setPost(post);
         comment.setParent(parent);
         comment.setMember(member);
-        comment.setDatetime(LocalDateTime.now());
+        comment.setDatetime(LocalDateTime.now().plusHours(9));
         comment.setRecommend(0);
 
         comment.setContent(content);

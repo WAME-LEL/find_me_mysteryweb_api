@@ -2,7 +2,6 @@ package com.findme.mysteryweb.service;
 
 
 import com.findme.mysteryweb.domain.Book;
-import com.findme.mysteryweb.domain.Comment;
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Review;
 import com.findme.mysteryweb.repository.BookRepository;

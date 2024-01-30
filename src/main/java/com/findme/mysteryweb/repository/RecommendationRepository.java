@@ -24,7 +24,7 @@ public class RecommendationRepository {
 
     public Recommendation findOneByMemberIdAndOtherId(Long memberId, Long postId, Long bookId){
         List<Recommendation> recommendationList = em.createQuery("select r from Recommendation r where r.member.id =:memberId and " +
-                        "(r.post.id =:postId and r.book.id is null) or (r.post.id is null and r.book.id =:bookId)", Recommendation.class)
+                        "((r.post.id =:postId and r.book.id is null) or (r.post.id is null and r.book.id =:bookId))", Recommendation.class)
                 .setParameter("memberId", memberId)
                 .setParameter("postId", postId)
                 .setParameter("bookId", bookId)
@@ -45,6 +45,22 @@ public class RecommendationRepository {
 
         return recommendationList.isEmpty() ? Collections.emptyList() : recommendationList;
     }
+
+    public List<Recommendation> findAllByMemberIdAtBookOrPost(Long memberId, String recommendationType){
+        String queryString = "select r from Recommendation r where r.member.id =:memberId ";
+        if ("book".equals(recommendationType)) {
+            queryString += " and r.book.id is not null";
+        } else if ("post".equals(recommendationType)) {
+            queryString += " and r.post.id is not null";
+        }
+
+        List<Recommendation> recommendationList = em.createQuery(queryString, Recommendation.class)
+                .setParameter("memberId", memberId)
+                .getResultList();
+
+        return recommendationList.isEmpty() ? Collections.emptyList() : recommendationList;
+    }
+
 
     public void delete(Long recommendationId){
         em.remove(em.find(Recommendation.class, recommendationId));

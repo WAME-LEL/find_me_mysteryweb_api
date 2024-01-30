@@ -1,7 +1,6 @@
 package com.findme.mysteryweb.repository;
 
 
-import com.findme.mysteryweb.domain.Comment;
 import com.findme.mysteryweb.domain.Review;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

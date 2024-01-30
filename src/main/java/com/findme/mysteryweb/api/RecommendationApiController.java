@@ -12,17 +12,20 @@ import com.findme.mysteryweb.service.RecommendationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@Slf4j
+@CrossOrigin(origins = {"https://detectivesnight.com", "https://www.detectivesnight.com", "http://detectivesnight.com", "http://www.detectivesnight.com"})
 public class RecommendationApiController {
     private final RecommendationService recommendationService;
     private final MemberService memberService;
@@ -31,8 +34,8 @@ public class RecommendationApiController {
 
 
     @PostMapping("/api/recommendation")
-    public ResponseEntity<?> saveRecommendation(@RequestBody SaveRecommendationRequest request) {
-        Member member = memberService.findOne(request.memberId);
+    public ResponseEntity<?> saveRecommendation(@AuthenticationPrincipal UserDetails userDetails, @RequestBody SaveRecommendationRequest request) {
+        Member member = memberService.findOneByUsername(userDetails.getUsername());
         Post post = null;
         Book book = null;
 
@@ -51,7 +54,7 @@ public class RecommendationApiController {
     }
 
     @GetMapping("/api/recommendation")
-    public ResponseEntity<?> getReCommendations(@ModelAttribute GetRecommendationRequest request) {
+    public ResponseEntity<?> getRecommendations(@ModelAttribute GetRecommendationRequest request) {
         Recommendation recommendation = recommendationService.findOneByMemberIdAndOtherId(request.memberId, request.postId, request.bookId);
 
         if(recommendation == null){
@@ -63,20 +66,19 @@ public class RecommendationApiController {
 
     @GetMapping("/api/recommendations")
     public ResponseEntity<?> getReCommendationList(@ModelAttribute GetRecommendationListRequest request) {
-        List<Recommendation> recommendationList = recommendationService.findAllByMemberId(request.memberId);
+        List<Recommendation> recommendationList;
+        if(Objects.equals(request.recommendationType, "book")){
+            recommendationList = recommendationService.findAllByMemberIdAtBookOrPost(request.memberId, request.recommendationType);
 
-        if (recommendationList.isEmpty()) {
-            return ResponseEntity.ok(new Result<>(Collections.EMPTY_LIST));
-        } else {
-            List<GetRecommendationListResponse> collect = recommendationList.stream()
-                    .map(r -> {
-                        if (r.getPost() != null) {
-                            return new GetRecommendationListResponse(r.getPost().getId(), null);
-                        } else {
-                            return new GetRecommendationListResponse(null, r.getBook().getId());
-                        }
-                    })
-                    .collect(Collectors.toList());
+            List<GetRecommendationBookListResponse> collect = recommendationList.stream()
+                    .map(r -> new GetRecommendationBookListResponse(r.getBook().getId())).collect(Collectors.toList());
+
+            return ResponseEntity.ok(new Result<>(collect));
+        }else{
+            recommendationList = recommendationService.findAllByMemberIdAtBookOrPost(request.memberId, request.recommendationType);
+
+            List<GetRecommendationPostListResponse> collect = recommendationList.stream()
+                    .map(r -> new GetRecommendationPostListResponse(r.getPost().getId())).collect(Collectors.toList());
 
             return ResponseEntity.ok(new Result<>(collect));
         }
@@ -84,7 +86,12 @@ public class RecommendationApiController {
     }
 
     @DeleteMapping("/api/recommendation")
-    public ResponseEntity<?> cancelRecommendation(@ModelAttribute CancelRecommendationRequest request) {
+    public ResponseEntity<?> cancelRecommendation(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute CancelRecommendationRequest request) {
+        Member member = memberService.findOneByUsername(userDetails.getUsername());
+        if (!Objects.equals(member.getId(), request.memberId)){
+            return ResponseEntity.ok("No permission");
+        }
+
         recommendationService.delete(request.memberId, request.postId, request.bookId);
         if (request.postId != null) {
             postService.decreaseRecommendCount(request.postId);
@@ -106,7 +113,6 @@ public class RecommendationApiController {
 
     @Data
     static class SaveRecommendationRequest {
-        private Long memberId;
         private Long postId;
         private Long bookId;
     }
@@ -119,15 +125,20 @@ public class RecommendationApiController {
     }
 
     @Data
-    static class GetRecommendationListRequest {
+    static class GetRecommendationListRequest{
         private Long memberId;
+        private String recommendationType;
+    }
+    @Data
+    @AllArgsConstructor
+    static class GetRecommendationBookListResponse {
+        private Long bookId;
     }
 
     @Data
     @AllArgsConstructor
-    static class GetRecommendationListResponse {
+    static class GetRecommendationPostListResponse {
         private Long postId;
-        private Long bookId;
     }
 
     @Data

@@ -21,7 +21,6 @@ public class Member {
     private String username;
     private String password;
     private String email;
-    private int solved;
     private int ranking;
 
     private String AuthenticationCode;
@@ -49,7 +48,6 @@ public class Member {
         member.setUsername(username);
         member.setPassword(password);
         member.setActivated(false);
-        member.setSolved(0);
 
         return member;
     }

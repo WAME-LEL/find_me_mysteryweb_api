@@ -2,7 +2,6 @@ package com.findme.mysteryweb.service;
 
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
-import com.findme.mysteryweb.domain.AnswerType;
 import com.findme.mysteryweb.repository.MemberRepository;
 import com.findme.mysteryweb.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ public class PostService {
 
 
     @Transactional
-    public Long posting(Long memberId, String post_title, String post_content, String post_type, String answer, String explanation, AnswerType answerType){
+    public Long posting(Long memberId, String post_title, String post_content, String post_type, String answer, String explanation){
         //엔티티 조회
         Member member = memberRepository.findOne(memberId);
 
@@ -66,16 +65,19 @@ public class PostService {
         return postRepository.findAllByTypeAndAuthor(type, author);
     }
 
-    public List<Post> findAllOrderByViewCount() {
-        return postRepository.findAllOrderByViewCount();
+    public List<Post> findAllOrderByViewCount(String type) {
+        return postRepository.findAllOrderByViewCount(type);
     }
 
-    public List<Post> findAllOrderByRecommendationCount() {
-        return postRepository.findAllOrderByRecommendationCount();
+    public List<Post> findAllOrderByRecommendationCount(String type) {
+        return postRepository.findAllOrderByRecommendationCount(type);
     }
 
-    public List<Post> findCountOrderByView(int count){
+    public List<Post> findCountOrderByRecommendationCount(int count){
         return postRepository.findCountOrderByRecommendationCount(count);
+    }
+    public List<Post> findCountByTypeOrderByRecommendationCount(String type, int count){
+        return postRepository.findCountByTypeOrderByRecommendationCount(type, count);
     }
 
     public List<Post> findCountOrderByDatetime(String type, int count){
@@ -89,11 +91,13 @@ public class PostService {
     }
 
     @Transactional
-    public Post update(Long postId, String update_post_title, String update_post_content){
+    public Post update(Long postId, String update_post_title, String update_post_content, String answer, String explanation, String type){
         Post findPost = postRepository.findOne(postId);
         findPost.setTitle(update_post_title);
         findPost.setContent(update_post_content);
-
+        findPost.setAnswer(answer);
+        findPost.setExplanation(explanation);
+        findPost.setType(type);
         return findPost;
     }
 
