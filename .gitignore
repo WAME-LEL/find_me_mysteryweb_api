@@ -9,3 +9,4 @@
 /src/main/resources/application.yml
 /src/main/java/com/findme/mysteryweb/jwt/JwtUtil.java
 /src/main/resources/ssl/keystore.p12
+/build
