@@ -1,4 +1,4 @@
-# find_me_mysteryweb
+# 탐정의 밤 API
 
 ## 도메인 설계
 ### 회원
