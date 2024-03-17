@@ -29,15 +29,15 @@ public class Review {
 //    @OneToMany(mappedBy = "review")
 //    private List<Recommendation> recommendationList;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Review parent;
 
@@ -53,7 +53,7 @@ public class Review {
         review.setParent(parent);
         review.setBook(book);
         review.setMember(member);
-        review.setDatetime(LocalDateTime.now().plusHours(9));
+        review.setDatetime(LocalDateTime.now());
         review.setRecommendationCount(0);
 
         return review;

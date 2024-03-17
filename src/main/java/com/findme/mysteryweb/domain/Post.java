@@ -41,7 +41,7 @@ public class Post {
     private int viewCount;
 
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -57,7 +57,7 @@ public class Post {
     //== 생성 메서드 ==//
     public static Post createPost(String title, String content, String type, String answer, String explanation, Member member){
         Post post = new Post();
-        post.setDatetime(LocalDateTime.now().plusHours(9));
+        post.setDatetime(LocalDateTime.now());
         post.setTitle(title);
         post.setContent(content);
         post.setType(type);

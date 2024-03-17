@@ -70,7 +70,7 @@ public class MemberRepository {
     }
 
     public Member findOneByPostId(Long postId){
-        List<Member> memberList = em.createQuery("select m from Member m left join Post p on m.id = p.member.id where p.id =:postId", Member.class)
+        List<Member> memberList = em.createQuery("select m from Member m join fetch Post p on m.id = p.member.id where p.id =:postId", Member.class)
                 .setParameter("postId", postId)
                 .getResultList();
 
@@ -98,7 +98,7 @@ public class MemberRepository {
     }
 
     public List<Tuple> findAllByCorrectAnswer(Long postId){
-        return em.createQuery("select m, ca from Member m left join CorrectAnswer ca on m.id = ca.member.id where ca.post.id =:postId order by ca.datetime asc", Tuple.class)
+        return em.createQuery("select m, ca from Member m join fetch CorrectAnswer ca on m.id = ca.member.id where ca.post.id =:postId order by ca.datetime asc", Tuple.class)
                 .setParameter("postId", postId)
                 .getResultList();
     }

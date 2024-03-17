@@ -8,6 +8,7 @@ import com.findme.mysteryweb.domain.Post;
 import com.findme.mysteryweb.service.CommentService;
 import com.findme.mysteryweb.service.MemberService;
 import com.findme.mysteryweb.service.PostService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,6 +46,7 @@ public class PostApiController {
     private String bucket;
 
     @GetMapping("/api/post")
+    @Transactional
     public ResponseEntity<?> getPost(@ModelAttribute GetPostRequest request){
         Post post = postService.findOne(request.postId);
         postService.increaseViewCount(request.postId);
@@ -62,6 +64,7 @@ public class PostApiController {
     }
 
     @GetMapping("/api/post/update")
+    @Transactional
     public ResponseEntity<?> getPostToUpdate(@ModelAttribute GetPostRequest request){
         Post post = postService.findOne(request.postId);
         postService.increaseViewCount(request.postId);
@@ -78,6 +81,7 @@ public class PostApiController {
     }
 
     @GetMapping("/api/posts")
+    @Transactional
     public ResponseEntity<?> postList(@ModelAttribute PostListRequest request) {
         List<Post> postList;
         Integer count = request.getCount();
@@ -128,6 +132,7 @@ public class PostApiController {
     }
 
     @GetMapping("/api/post/home")
+    @Transactional
     public ResponseEntity<?> homePostList(@ModelAttribute PostListRequest request) {
         List<Post> postList = postService.findCountOrderByDatetime(request.type, request.count);
 
@@ -160,7 +165,7 @@ public class PostApiController {
         Member member = memberService.findOneByUsername(userDetails.getUsername());
         Member postMember = memberService.findOneByPostId(request.postId);
 
-        if(Objects.equals(member, postMember)){
+        if(Objects.equals(member.getId(), postMember.getId()) || member.getId() == 1){
             postService.update(request.postId, request.title, request.content, request.answer, request.explanation, request.type);
             return ResponseEntity.ok("Posting completed");
         }else{
@@ -200,13 +205,17 @@ public class PostApiController {
     }
 
     @GetMapping("/api/quiz/rank")
+    @Transactional
     public ResponseEntity<?> quizRank(@ModelAttribute QuizRankRequest request){
         List<Post> postList;
 
+        String custom = "추리 문제";
+        String cold = "미제 사건";
+
         if (Objects.equals(request.criteria, "조회")){
-            postList = postService.findAllOrderByViewCount(request.type);
+            postList = postService.findAllOrderByViewCount(custom, cold);
         }else if(Objects.equals(request.criteria, "추천")){
-            postList = postService.findAllOrderByRecommendationCount(request.type);
+            postList = postService.findAllOrderByRecommendationCount(custom, cold);
         }else{
             postList = postService.findAll();
         }
@@ -219,6 +228,7 @@ public class PostApiController {
     }
 
     @GetMapping("/api/quiz/rank/count")
+    @Transactional
     public ResponseEntity<?> quizRankByCount(@ModelAttribute QuizRankByCountRequest request){
         List<Post> postList = postService.findCountByTypeOrderByRecommendationCount(request.type, request.count);
 

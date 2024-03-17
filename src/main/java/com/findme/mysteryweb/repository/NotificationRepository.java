@@ -16,6 +16,10 @@ public class NotificationRepository {
         em.persist(notification);
     }
 
+    public Notification findOne(Long notificationId){
+        return em.find(Notification.class, notificationId);
+    }
+
     public List<Notification> findAllByReceiverId(Long receiverId){
         return em.createQuery("select n from Notification n where n.receiverId =: receiverId order by n.datetime desc", Notification.class)
                 .setParameter("receiverId", receiverId)
@@ -32,7 +36,7 @@ public class NotificationRepository {
 
 
     public void delete(Long notificationId){
-        em.remove(em.find(Notification.class, notificationId));
+        em.remove(findOne(notificationId));
     }
 
 }

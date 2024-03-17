@@ -28,7 +28,6 @@ public class Member {
     private boolean activated;
 
 
-
     @OneToMany(mappedBy = "member")
     private List<Post> posts;
 

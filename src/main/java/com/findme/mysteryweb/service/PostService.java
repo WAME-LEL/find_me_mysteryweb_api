@@ -65,12 +65,12 @@ public class PostService {
         return postRepository.findAllByTypeAndAuthor(type, author);
     }
 
-    public List<Post> findAllOrderByViewCount(String type) {
-        return postRepository.findAllOrderByViewCount(type);
+    public List<Post> findAllOrderByViewCount(String custom, String cold) {
+        return postRepository.findAllOrderByViewCount(custom, cold);
     }
 
-    public List<Post> findAllOrderByRecommendationCount(String type) {
-        return postRepository.findAllOrderByRecommendationCount(type);
+    public List<Post> findAllOrderByRecommendationCount(String custom, String cold) {
+        return postRepository.findAllOrderByRecommendationCount(custom, cold);
     }
 
     public List<Post> findCountOrderByRecommendationCount(int count){

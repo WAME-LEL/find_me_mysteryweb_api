@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -21,26 +22,23 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
-    private final NotificationRepository notificationRepository;
 
-    public Comment writeComment(Long postId, Long parentId, Long senderId, Long receiverId, String comment_content){
+    public Comment writeComment(Long postId, Long parentId, Long senderId, String comment_content){
         Post post = postRepository.findOne(postId);
         Member member = memberRepository.findOne(senderId);
         Comment parent = null;
         Comment comment;
-        Notification notification;
+
         if (parentId == null){
             comment = Comment.createComment(post, parent,  member, comment_content);
-//            notification = Notification.createNotification(senderId, receiverId, post.getTitle() + " 글에 댓글이 달렸습니다");
         }else{
             parent = commentRepository.findOne(parentId);
             comment = Comment.createComment(post, parent,  member, comment_content);
-//            notification = Notification.createNotification(senderId, parent.getMember().getId(), post.getTitle() + " 댓글에 대댓글이 달렸습니다");
         }
-//        notificationRepository.save(notification);
 
         return commentRepository.save(comment);
     }
+
 
     @Transactional(readOnly = true)
     public Comment findOne(Long commentId){

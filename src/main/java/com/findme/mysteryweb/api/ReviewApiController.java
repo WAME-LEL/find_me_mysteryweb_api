@@ -8,6 +8,7 @@ import com.findme.mysteryweb.domain.Review;
 import com.findme.mysteryweb.service.BookService;
 import com.findme.mysteryweb.service.MemberService;
 import com.findme.mysteryweb.service.ReviewService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,7 @@ public class ReviewApiController {
     }
 
     @GetMapping("/api/review")
+    @Transactional
     public ResponseEntity<?> reviewList(@ModelAttribute ReviewListRequest request){
         List<Review> reviewList = reviewService.findAllByBookId(request.bookId);
 
@@ -63,6 +65,7 @@ public class ReviewApiController {
     }
 
     @GetMapping("/api/reviews")
+    @Transactional
     public ResponseEntity<?> getReviewsWithAllRepliesByBookId(@ModelAttribute GetReviewsWithAllRepliesRequest request) {
         List<Review> reviewList = reviewService.findReviewsWithAllRepliesByBookId(request.bookId);
 

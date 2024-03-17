@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.346s</div>
+<div class="counter">0.437s</div>
 <p>duration</p>
 </div>
 </td>
@@ -78,7 +78,7 @@
 <span class="code">
 <pre>org.opentest4j.AssertionFailedError: 
 expected: 1
- but was: 26
+ but was: 65
 	at java.base@17.0.2/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
 	at java.base@17.0.2/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
 	at java.base@17.0.2/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
@@ -177,7 +177,7 @@ expected: 1
 <span class="code">
 <pre>org.opentest4j.AssertionFailedError: 
 expected: 2
- but was: 27
+ but was: 66
 	at java.base@17.0.2/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
 	at java.base@17.0.2/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
 	at java.base@17.0.2/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
@@ -283,12 +283,12 @@ expected: 2
 </thead>
 <tr>
 <td class="failures">delete()</td>
-<td class="failures">0.088s</td>
+<td class="failures">0.095s</td>
 <td class="failures">failed</td>
 </tr>
 <tr>
 <td class="failures">findAll()</td>
-<td class="failures">0.078s</td>
+<td class="failures">0.149s</td>
 <td class="failures">failed</td>
 </tr>
 <tr>
@@ -298,17 +298,17 @@ expected: 2
 </tr>
 <tr>
 <td class="success">findAllByType()</td>
-<td class="success">0.043s</td>
+<td class="success">0.047s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">findAllByTypeAndTitle()</td>
-<td class="success">0.068s</td>
+<td class="success">0.073s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">findOne()</td>
-<td class="success">0.014s</td>
+<td class="success">0.018s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
@@ -321,560 +321,8 @@ expected: 2
 <div id="tab2" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2024-01-29T19:13:44.526+09:00  INFO 142768 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.findme.mysteryweb.Repository.PostRepositoryTest]: PostRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-01-29T19:13:44.527+09:00  INFO 142768 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.findme.mysteryweb.MysterywebApplication for test class com.findme.mysteryweb.Repository.PostRepositoryTest
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.536+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.536+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.536+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.536+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.536+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [null]
-2024-01-29T19:13:44.536+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [null]
-2024-01-29T19:13:44.536+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.536+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [null]
-2024-01-29T19:13:44.536+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3368]
-Hibernate: 
-    insert 
-    into
-        post
-        (answer,content,datetime,explanation,member_id,recommendation_count,title,type,view_count,post_id) 
-    values
-        (?,?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.542+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [test]
-2024-01-29T19:13:44.542+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [VARCHAR] - [test]
-2024-01-29T19:13:44.542+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [2024-01-30T04:13:44.533215]
-2024-01-29T19:13:44.542+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [test]
-2024-01-29T19:13:44.542+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [BIGINT] - [3368]
-2024-01-29T19:13:44.542+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [INTEGER] - [0]
-2024-01-29T19:13:44.542+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [VARCHAR] - [test]
-2024-01-29T19:13:44.542+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test]
-2024-01-29T19:13:44.542+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [INTEGER] - [0]
-2024-01-29T19:13:44.542+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [10] as [BIGINT] - [2610]
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.546+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.546+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.546+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.546+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.546+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [null]
-2024-01-29T19:13:44.546+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [null]
-2024-01-29T19:13:44.546+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.546+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [null]
-2024-01-29T19:13:44.546+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3369]
-Hibernate: 
-    insert 
-    into
-        post
-        (answer,content,datetime,explanation,member_id,recommendation_count,title,type,view_count,post_id) 
-    values
-        (?,?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.551+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [test]
-2024-01-29T19:13:44.551+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [VARCHAR] - [test]
-2024-01-29T19:13:44.551+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [2024-01-30T04:13:44.533215]
-2024-01-29T19:13:44.551+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [test]
-2024-01-29T19:13:44.551+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [BIGINT] - [3369]
-2024-01-29T19:13:44.551+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [INTEGER] - [0]
-2024-01-29T19:13:44.551+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [VARCHAR] - [test]
-2024-01-29T19:13:44.551+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test]
-2024-01-29T19:13:44.552+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [INTEGER] - [0]
-2024-01-29T19:13:44.552+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [10] as [BIGINT] - [2611]
-Hibernate: 
-    delete 
-    from
-        post 
-    where
-        post_id=?
-2024-01-29T19:13:44.559+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [BIGINT] - [2610]
-Hibernate: 
-    select
-        p1_0.post_id,
-        p1_0.answer,
-        p1_0.content,
-        p1_0.datetime,
-        p1_0.explanation,
-        p1_0.member_id,
-        p1_0.recommendation_count,
-        p1_0.title,
-        p1_0.type,
-        p1_0.view_count 
-    from
-        post p1_0
-Hibernate: 
-    select
-        m1_0.member_id,
-        m1_0.authentication_code,
-        m1_0.activated,
-        m1_0.authentication_code_expire_time,
-        m1_0.email,
-        m1_0.nickname,
-        m1_0.password,
-        m1_0.ranking,
-        m1_0.username 
-    from
-        member m1_0 
-    where
-        m1_0.member_id=?
-2024-01-29T19:13:44.581+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [BIGINT] - [1]
-Hibernate: 
-    select
-        m1_0.member_id,
-        m1_0.authentication_code,
-        m1_0.activated,
-        m1_0.authentication_code_expire_time,
-        m1_0.email,
-        m1_0.nickname,
-        m1_0.password,
-        m1_0.ranking,
-        m1_0.username 
-    from
-        member m1_0 
-    where
-        m1_0.member_id=?
-2024-01-29T19:13:44.586+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [BIGINT] - [2002]
-Hibernate: 
-    select
-        m1_0.member_id,
-        m1_0.authentication_code,
-        m1_0.activated,
-        m1_0.authentication_code_expire_time,
-        m1_0.email,
-        m1_0.nickname,
-        m1_0.password,
-        m1_0.ranking,
-        m1_0.username 
-    from
-        member m1_0 
-    where
-        m1_0.member_id=?
-2024-01-29T19:13:44.593+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [BIGINT] - [2152]
-Hibernate: 
-    select
-        m1_0.member_id,
-        m1_0.authentication_code,
-        m1_0.activated,
-        m1_0.authentication_code_expire_time,
-        m1_0.email,
-        m1_0.nickname,
-        m1_0.password,
-        m1_0.ranking,
-        m1_0.username 
-    from
-        member m1_0 
-    where
-        m1_0.member_id=?
-2024-01-29T19:13:44.599+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [BIGINT] - [2402]
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.646+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.646+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.646+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.646+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.646+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [null]
-2024-01-29T19:13:44.646+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [null]
-2024-01-29T19:13:44.646+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.646+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [null]
-2024-01-29T19:13:44.646+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3370]
-Hibernate: 
-    insert 
-    into
-        post
-        (answer,content,datetime,explanation,member_id,recommendation_count,title,type,view_count,post_id) 
-    values
-        (?,?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.654+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [test]
-2024-01-29T19:13:44.654+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [VARCHAR] - [test1]
-2024-01-29T19:13:44.654+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [2024-01-30T04:13:44.623056400]
-2024-01-29T19:13:44.654+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [test]
-2024-01-29T19:13:44.654+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [BIGINT] - [3370]
-2024-01-29T19:13:44.654+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [INTEGER] - [0]
-2024-01-29T19:13:44.654+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [VARCHAR] - [test1]
-2024-01-29T19:13:44.654+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test1]
-2024-01-29T19:13:44.654+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [INTEGER] - [0]
-2024-01-29T19:13:44.654+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [10] as [BIGINT] - [2612]
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.659+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.659+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.659+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.659+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.659+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [null]
-2024-01-29T19:13:44.659+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [null]
-2024-01-29T19:13:44.659+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.659+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [null]
-2024-01-29T19:13:44.659+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3371]
-Hibernate: 
-    insert 
-    into
-        post
-        (answer,content,datetime,explanation,member_id,recommendation_count,title,type,view_count,post_id) 
-    values
-        (?,?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.664+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [test]
-2024-01-29T19:13:44.664+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [VARCHAR] - [test2]
-2024-01-29T19:13:44.664+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [2024-01-30T04:13:44.623056400]
-2024-01-29T19:13:44.664+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [test]
-2024-01-29T19:13:44.664+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [BIGINT] - [3371]
-2024-01-29T19:13:44.664+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [INTEGER] - [0]
-2024-01-29T19:13:44.664+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [VARCHAR] - [test1]
-2024-01-29T19:13:44.664+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test2]
-2024-01-29T19:13:44.664+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [INTEGER] - [0]
-2024-01-29T19:13:44.664+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [10] as [BIGINT] - [2613]
-Hibernate: 
-    select
-        p1_0.post_id,
-        p1_0.answer,
-        p1_0.content,
-        p1_0.datetime,
-        p1_0.explanation,
-        p1_0.member_id,
-        p1_0.recommendation_count,
-        p1_0.title,
-        p1_0.type,
-        p1_0.view_count 
-    from
-        post p1_0 
-    where
-        p1_0.title like replace(?,'\\','\\\\') 
-        and p1_0.type like replace(?,'\\','\\\\') 
-    order by
-        p1_0.datetime desc
-2024-01-29T19:13:44.668+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [%test1%]
-2024-01-29T19:13:44.668+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [VARCHAR] - [test1]
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.692+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.693+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.693+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.693+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.693+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [null]
-2024-01-29T19:13:44.693+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [null]
-2024-01-29T19:13:44.693+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.693+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [null]
-2024-01-29T19:13:44.693+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3372]
-Hibernate: 
-    insert 
-    into
-        post
-        (answer,content,datetime,explanation,member_id,recommendation_count,title,type,view_count,post_id) 
-    values
-        (?,?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.698+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [test]
-2024-01-29T19:13:44.698+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [VARCHAR] - [test]
-2024-01-29T19:13:44.698+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [2024-01-30T04:13:44.690435900]
-2024-01-29T19:13:44.698+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [test]
-2024-01-29T19:13:44.698+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [BIGINT] - [3372]
-2024-01-29T19:13:44.698+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [INTEGER] - [0]
-2024-01-29T19:13:44.698+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [VARCHAR] - [test]
-2024-01-29T19:13:44.698+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test]
-2024-01-29T19:13:44.698+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [INTEGER] - [0]
-2024-01-29T19:13:44.698+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [10] as [BIGINT] - [2614]
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.703+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.703+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.703+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.703+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.703+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [null]
-2024-01-29T19:13:44.703+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [null]
-2024-01-29T19:13:44.703+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.703+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [null]
-2024-01-29T19:13:44.703+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3373]
-Hibernate: 
-    insert 
-    into
-        post
-        (answer,content,datetime,explanation,member_id,recommendation_count,title,type,view_count,post_id) 
-    values
-        (?,?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.707+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [test]
-2024-01-29T19:13:44.708+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [VARCHAR] - [test]
-2024-01-29T19:13:44.708+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [2024-01-30T04:13:44.690435900]
-2024-01-29T19:13:44.708+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [test]
-2024-01-29T19:13:44.708+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [BIGINT] - [3373]
-2024-01-29T19:13:44.708+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [INTEGER] - [0]
-2024-01-29T19:13:44.708+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [VARCHAR] - [test]
-2024-01-29T19:13:44.708+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test]
-2024-01-29T19:13:44.708+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [INTEGER] - [0]
-2024-01-29T19:13:44.708+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [10] as [BIGINT] - [2615]
-Hibernate: 
-    select
-        p1_0.post_id,
-        p1_0.answer,
-        p1_0.content,
-        p1_0.datetime,
-        p1_0.explanation,
-        p1_0.member_id,
-        p1_0.recommendation_count,
-        p1_0.title,
-        p1_0.type,
-        p1_0.view_count 
-    from
-        post p1_0
-Hibernate: 
-    select
-        m1_0.member_id,
-        m1_0.authentication_code,
-        m1_0.activated,
-        m1_0.authentication_code_expire_time,
-        m1_0.email,
-        m1_0.nickname,
-        m1_0.password,
-        m1_0.ranking,
-        m1_0.username 
-    from
-        member m1_0 
-    where
-        m1_0.member_id=?
-2024-01-29T19:13:44.729+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [BIGINT] - [1]
-Hibernate: 
-    select
-        m1_0.member_id,
-        m1_0.authentication_code,
-        m1_0.activated,
-        m1_0.authentication_code_expire_time,
-        m1_0.email,
-        m1_0.nickname,
-        m1_0.password,
-        m1_0.ranking,
-        m1_0.username 
-    from
-        member m1_0 
-    where
-        m1_0.member_id=?
-2024-01-29T19:13:44.735+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [BIGINT] - [2002]
-Hibernate: 
-    select
-        m1_0.member_id,
-        m1_0.authentication_code,
-        m1_0.activated,
-        m1_0.authentication_code_expire_time,
-        m1_0.email,
-        m1_0.nickname,
-        m1_0.password,
-        m1_0.ranking,
-        m1_0.username 
-    from
-        member m1_0 
-    where
-        m1_0.member_id=?
-2024-01-29T19:13:44.741+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [BIGINT] - [2152]
-Hibernate: 
-    select
-        m1_0.member_id,
-        m1_0.authentication_code,
-        m1_0.activated,
-        m1_0.authentication_code_expire_time,
-        m1_0.email,
-        m1_0.nickname,
-        m1_0.password,
-        m1_0.ranking,
-        m1_0.username 
-    from
-        member m1_0 
-    where
-        m1_0.member_id=?
-2024-01-29T19:13:44.746+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [BIGINT] - [2402]
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.791+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.791+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.791+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.791+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.791+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [null]
-2024-01-29T19:13:44.791+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [null]
-2024-01-29T19:13:44.791+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.791+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [null]
-2024-01-29T19:13:44.791+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3375]
-Hibernate: 
-    insert 
-    into
-        post
-        (answer,content,datetime,explanation,member_id,recommendation_count,title,type,view_count,post_id) 
-    values
-        (?,?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.795+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [test]
-2024-01-29T19:13:44.795+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [VARCHAR] - [test1]
-2024-01-29T19:13:44.795+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [2024-01-30T04:13:44.788082600]
-2024-01-29T19:13:44.795+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [test]
-2024-01-29T19:13:44.795+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [BIGINT] - [3375]
-2024-01-29T19:13:44.795+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [INTEGER] - [0]
-2024-01-29T19:13:44.795+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [VARCHAR] - [test1]
-2024-01-29T19:13:44.795+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test1]
-2024-01-29T19:13:44.795+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [INTEGER] - [0]
-2024-01-29T19:13:44.795+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [10] as [BIGINT] - [2617]
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.800+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.800+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.800+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.800+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.800+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [null]
-2024-01-29T19:13:44.800+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [null]
-2024-01-29T19:13:44.800+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.800+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [null]
-2024-01-29T19:13:44.800+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3376]
-Hibernate: 
-    insert 
-    into
-        post
-        (answer,content,datetime,explanation,member_id,recommendation_count,title,type,view_count,post_id) 
-    values
-        (?,?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.804+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [test]
-2024-01-29T19:13:44.804+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [VARCHAR] - [test2]
-2024-01-29T19:13:44.804+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [2024-01-30T04:13:44.788082600]
-2024-01-29T19:13:44.804+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [test]
-2024-01-29T19:13:44.804+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [BIGINT] - [3376]
-2024-01-29T19:13:44.805+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [INTEGER] - [0]
-2024-01-29T19:13:44.805+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [VARCHAR] - [test2]
-2024-01-29T19:13:44.805+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test2]
-2024-01-29T19:13:44.805+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [INTEGER] - [0]
-2024-01-29T19:13:44.805+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [10] as [BIGINT] - [2618]
-Hibernate: 
-    select
-        p1_0.post_id,
-        p1_0.answer,
-        p1_0.content,
-        p1_0.datetime,
-        p1_0.explanation,
-        p1_0.member_id,
-        p1_0.recommendation_count,
-        p1_0.title,
-        p1_0.type,
-        p1_0.view_count 
-    from
-        post p1_0 
-    where
-        p1_0.type like replace(?,'\\','\\\\') 
-    order by
-        p1_0.datetime desc
-2024-01-29T19:13:44.810+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [test1]
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.847+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.847+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.847+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.847+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.847+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [null]
-2024-01-29T19:13:44.847+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [null]
-2024-01-29T19:13:44.847+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.847+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [null]
-2024-01-29T19:13:44.847+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3378]
-Hibernate: 
-    insert 
-    into
-        post
-        (answer,content,datetime,explanation,member_id,recommendation_count,title,type,view_count,post_id) 
-    values
-        (?,?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.851+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [test]
-2024-01-29T19:13:44.852+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [VARCHAR] - [test1]
-2024-01-29T19:13:44.852+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [2024-01-30T04:13:44.844721900]
-2024-01-29T19:13:44.852+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [test]
-2024-01-29T19:13:44.852+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [BIGINT] - [3378]
-2024-01-29T19:13:44.852+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [INTEGER] - [0]
-2024-01-29T19:13:44.852+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [VARCHAR] - [test1]
-2024-01-29T19:13:44.852+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test1]
-2024-01-29T19:13:44.852+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [INTEGER] - [0]
-2024-01-29T19:13:44.852+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [10] as [BIGINT] - [2620]
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.858+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.858+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.858+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.858+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.858+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [null]
-2024-01-29T19:13:44.858+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [null]
-2024-01-29T19:13:44.858+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.858+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [null]
-2024-01-29T19:13:44.858+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3379]
-Hibernate: 
-    insert 
-    into
-        post
-        (answer,content,datetime,explanation,member_id,recommendation_count,title,type,view_count,post_id) 
-    values
-        (?,?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.862+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [test]
-2024-01-29T19:13:44.862+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [VARCHAR] - [test2]
-2024-01-29T19:13:44.862+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [2024-01-30T04:13:44.844721900]
-2024-01-29T19:13:44.862+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [test]
-2024-01-29T19:13:44.863+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [BIGINT] - [3379]
-2024-01-29T19:13:44.863+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [INTEGER] - [0]
-2024-01-29T19:13:44.863+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [VARCHAR] - [test2]
-2024-01-29T19:13:44.863+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test2]
-2024-01-29T19:13:44.863+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [INTEGER] - [0]
-2024-01-29T19:13:44.863+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [10] as [BIGINT] - [2621]
-Hibernate: 
-    select
-        p1_0.post_id,
-        p1_0.answer,
-        p1_0.content,
-        p1_0.datetime,
-        p1_0.explanation,
-        p1_0.member_id,
-        p1_0.recommendation_count,
-        p1_0.title,
-        p1_0.type,
-        p1_0.view_count 
-    from
-        post p1_0 
-    where
-        p1_0.title like replace(?,'\\','\\\\') 
-    order by
-        p1_0.datetime desc
-2024-01-29T19:13:44.867+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [%test1%]
+<pre>2024-03-15T02:09:25.026+09:00  INFO 167364 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.findme.mysteryweb.Repository.PostRepositoryTest]: PostRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-03-15T02:09:25.028+09:00  INFO 167364 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.findme.mysteryweb.MysterywebApplication for test class com.findme.mysteryweb.Repository.PostRepositoryTest
 </pre>
 </span>
 </div>
@@ -886,7 +334,7 @@ Hibernate:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.2.1</a> at 2024. 1. 29. 오후 7:13:44</p>
+<a href="http://www.gradle.org">Gradle 8.2.1</a> at 2024. 3. 15. 오전 2:09:25</p>
 </div>
 </div>
 </body>

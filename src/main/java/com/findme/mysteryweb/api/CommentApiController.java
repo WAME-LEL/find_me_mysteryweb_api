@@ -9,6 +9,7 @@ import com.findme.mysteryweb.service.CommentService;
 import com.findme.mysteryweb.service.MemberService;
 import com.findme.mysteryweb.service.NotificationService;
 import com.findme.mysteryweb.service.PostService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -50,26 +51,36 @@ public class CommentApiController {
     }
 
     @PostMapping("/api/comment")
-    public ResponseEntity<?> commentSave(@AuthenticationPrincipal UserDetails userDetails, @RequestBody CommentSaveRequest request){
+    public ResponseEntity<?> commentSave(@AuthenticationPrincipal UserDetails userDetails, @RequestBody CommentSaveRequest request) {
         Member member = memberService.findOneByUsername(userDetails.getUsername());
 
 
         Post post = postService.findOne(request.postId);
-        Comment comment = commentService.writeComment(request.postId, request.parentId, member.getId(), post.getMember().getId(), request.content);
+        Comment comment = commentService.writeComment(request.postId, request.parentId, member.getId(), request.content);
 
-//        Notification notification;
-//
-//        log.error(comment.getContent());
-//
-//        if(request.parentId == null){
-//            notification = notificationService.findOneByReceiverId(post.getMember().getId());
-//        }else{
-//            notification = notificationService.findOneByReceiverId(comment.getParent().getMember().getId());
-//        }
-//
-//
-//        notificationService.sendNotification(notification);
-//        log.error(notification.getMessage() + " : sender:" +notification.getSenderId() + " receiver:" + notification.getReceiverId());
+        Notification notification;
+
+
+        try{
+            if (request.parentId == null) {
+                if (!Objects.equals(member.getId(), post.getMember().getId())) {
+                    notification = Notification.createNotification(member.getId(), post.getMember().getId(), post.getId(),post.getTitle() + " 글에 댓글이 달렸습니다");
+                    notificationService.save(notification);
+                    notificationService.sendNotification(notification);
+                }
+            } else {
+                if (!Objects.equals(member.getId(), comment.getParent().getMember().getId())) {
+                    notification = Notification.createNotification(member.getId(), comment.getParent().getMember().getId(), post.getId(),post.getTitle() + " 댓글에 대댓글이 달렸습니다");
+                    notificationService.save(notification);
+                    notificationService.sendNotification(notification);
+                }
+            }
+
+        }catch(Exception e){
+            return ResponseEntity.ok("notification failed");
+        }
+
+
 
         return ResponseEntity.ok("comment save completed");
     }
@@ -88,6 +99,7 @@ public class CommentApiController {
     }
 
     @GetMapping("/api/comments")
+    @Transactional
     public ResponseEntity<?> getCommentsWithAllRepliesByPostId(@ModelAttribute GetCommentsWithAllRepliesRequest request) {
         List<Comment> comments = commentService.findCommentsWithAllRepliesByPostId(request.postId);
 

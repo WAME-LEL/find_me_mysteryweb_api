@@ -11,6 +11,7 @@ import com.findme.mysteryweb.service.CorrectAnswerService;
 import com.findme.mysteryweb.service.MemberService;
 import com.findme.mysteryweb.service.PostService;
 import jakarta.persistence.Tuple;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -115,6 +116,7 @@ public class MemberApiController {
     }
 
     @GetMapping("/api/user")
+    @Transactional
     public ResponseEntity<?> userInfo(@AuthenticationPrincipal UserDetails userDetails){
         Member member = memberService.findOneByUsername(userDetails.getUsername());
         List<Post> postList = postService.findAllByMemberId(member.getId());
@@ -147,6 +149,7 @@ public class MemberApiController {
     }
 
     @GetMapping("/api/member/rank")
+    @Transactional
     public ResponseEntity<?> userRank(@RequestParam(value = "count", required = false) Integer count){
         List<Tuple> orderBySolved;
 

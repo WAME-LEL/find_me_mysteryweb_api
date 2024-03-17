@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.083s</div>
+<div class="counter">0.115s</div>
 <p>duration</p>
 </div>
 </td>
@@ -78,7 +78,7 @@
 <span class="code">
 <pre>org.opentest4j.AssertionFailedError: 
 expected: 2
- but was: 35
+ but was: 180
 	at java.base@17.0.2/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
 	at java.base@17.0.2/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
 	at java.base@17.0.2/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
@@ -184,22 +184,22 @@ expected: 2
 </thead>
 <tr>
 <td class="success">delete()</td>
-<td class="success">0.015s</td>
+<td class="success">0.016s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="failures">findAll()</td>
-<td class="failures">0.040s</td>
+<td class="failures">0.070s</td>
 <td class="failures">failed</td>
 </tr>
 <tr>
 <td class="success">findOne()</td>
-<td class="success">0.013s</td>
+<td class="success">0.015s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">save()</td>
-<td class="success">0.015s</td>
+<td class="success">0.014s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -207,53 +207,8 @@ expected: 2
 <div id="tab2" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>2024-01-29T19:13:44.434+09:00  INFO 142768 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.findme.mysteryweb.Repository.MemberRepositoryTest]: MemberRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-2024-01-29T19:13:44.435+09:00  INFO 142768 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.findme.mysteryweb.MysterywebApplication for test class com.findme.mysteryweb.Repository.MemberRepositoryTest
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.462+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.462+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.462+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.462+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.462+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [test]
-2024-01-29T19:13:44.462+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [test]
-2024-01-29T19:13:44.462+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.462+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test]
-2024-01-29T19:13:44.462+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3364]
-Hibernate: 
-    insert 
-    into
-        member
-        (authentication_code,activated,authentication_code_expire_time,email,nickname,password,ranking,username,member_id) 
-    values
-        (?,?,?,?,?,?,?,?,?)
-2024-01-29T19:13:44.467+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [1] as [VARCHAR] - [null]
-2024-01-29T19:13:44.467+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [2] as [BOOLEAN] - [false]
-2024-01-29T19:13:44.467+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [3] as [TIMESTAMP] - [null]
-2024-01-29T19:13:44.467+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [4] as [VARCHAR] - [null]
-2024-01-29T19:13:44.467+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [5] as [VARCHAR] - [test]
-2024-01-29T19:13:44.467+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [6] as [VARCHAR] - [test]
-2024-01-29T19:13:44.467+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [7] as [INTEGER] - [0]
-2024-01-29T19:13:44.467+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [8] as [VARCHAR] - [test]
-2024-01-29T19:13:44.467+09:00 TRACE 142768 --- [    Test worker] org.hibernate.orm.jdbc.bind              : binding parameter [9] as [BIGINT] - [3365]
-Hibernate: 
-    select
-        m1_0.member_id,
-        m1_0.authentication_code,
-        m1_0.activated,
-        m1_0.authentication_code_expire_time,
-        m1_0.email,
-        m1_0.nickname,
-        m1_0.password,
-        m1_0.ranking,
-        m1_0.username 
-    from
-        member m1_0
+<pre>2024-03-15T02:09:24.896+09:00  INFO 167364 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.findme.mysteryweb.Repository.MemberRepositoryTest]: MemberRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-03-15T02:09:24.902+09:00  INFO 167364 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.findme.mysteryweb.MysterywebApplication for test class com.findme.mysteryweb.Repository.MemberRepositoryTest
 </pre>
 </span>
 </div>
@@ -265,7 +220,7 @@ Hibernate:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.2.1</a> at 2024. 1. 29. 오후 7:13:44</p>
+<a href="http://www.gradle.org">Gradle 8.2.1</a> at 2024. 3. 15. 오전 2:09:25</p>
 </div>
 </div>
 </body>

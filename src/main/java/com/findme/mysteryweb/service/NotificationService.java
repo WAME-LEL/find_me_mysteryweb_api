@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,8 +36,16 @@ public class NotificationService {
         }
     }
 
+    public void save(Notification notification){
+        notificationRepository.save(notification);
+    }
+
     public Notification findOneByReceiverId(Long receiverId){
         return notificationRepository.findOneByReceiverId(receiverId);
+    }
+
+    public List<Notification> findAllByReceiverId(Long receiverId){
+        return notificationRepository.findAllByReceiverId(receiverId);
     }
     public void addEmitter(Long receiverId, SseEmitter emitter) {
         userEmitters.put(receiverId, emitter);

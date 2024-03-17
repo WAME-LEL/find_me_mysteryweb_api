@@ -21,7 +21,7 @@ public class CorrectAnswer {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 
@@ -30,7 +30,7 @@ public class CorrectAnswer {
         CorrectAnswer correctAnswer = new CorrectAnswer();
         correctAnswer.setMember(member);
         correctAnswer.setPost(post);
-        correctAnswer.setDatetime(LocalDateTime.now().plusHours(9));
+        correctAnswer.setDatetime(LocalDateTime.now());
 
         return correctAnswer;
     }

@@ -5,6 +5,7 @@ import com.findme.mysteryweb.domain.Book;
 import com.findme.mysteryweb.domain.Review;
 import com.findme.mysteryweb.service.BookService;
 import com.findme.mysteryweb.service.MemberService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,7 @@ public class BookApiController {
     }
 
     @GetMapping("/api/book")
+    @Transactional
     public ResponseEntity<?> savedBookList(@ModelAttribute SavedBookListRequest request){
         List<Book> bookList;
 
@@ -80,6 +82,7 @@ public class BookApiController {
     }
 
     @GetMapping("/api/book/detail")
+    @Transactional
     public ResponseEntity<?> bookInfo(@ModelAttribute BookInfoRequest request){
         Book book = bookService.findOne(request.bookId);
         List<Review> reviewList = book.getReviewList();

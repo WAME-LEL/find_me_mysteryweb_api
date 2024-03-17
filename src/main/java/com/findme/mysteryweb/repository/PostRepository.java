@@ -76,15 +76,17 @@ public class PostRepository {
                 .getResultList();
     }
 
-    public List<Post> findAllOrderByViewCount(String type){
-        return em.createQuery("select p from Post p where p.type =:type order by p.viewCount desc", Post.class)
-                .setParameter("type", type)
+    public List<Post> findAllOrderByViewCount(String custom, String cold){
+        return em.createQuery("select p from Post p where p.type =:custom or p.type =:cold order by p.viewCount desc", Post.class)
+                .setParameter("custom", custom)
+                .setParameter("cold", cold)
                 .getResultList();
     }
 
-    public List<Post> findAllOrderByRecommendationCount(String type){
-        return em.createQuery("select p from Post p where p.type =:type order by p.recommendationCount desc", Post.class)
-                .setParameter("type", type)
+    public List<Post> findAllOrderByRecommendationCount(String custom, String cold){
+        return em.createQuery("select p from Post p where p.type =:custom or p.type = :cold order by p.recommendationCount desc", Post.class)
+                .setParameter("custom", custom)
+                .setParameter("cold", cold)
                 .getResultList();
     }
 

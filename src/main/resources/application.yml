@@ -13,11 +13,12 @@ spring: #띄어쓰기 없음
 #        format_sql: true #띄어쓰기 8칸
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://34.22.70.43:3306/mysteryweb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://34.22.108.43:3306/mysteryweb?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     username: developer
     password: 362405
   jpa:
-    show-sql: true
+    open-in-view: false
+    show-sql: false
     hibernate:
       ddl-auto: none
     properties:
@@ -45,7 +46,7 @@ spring: #띄어쓰기 없음
 
 logging.level: #띄어쓰기 없음
   org.hibernate.SQL: ERROR #띄어쓰기 2칸
-  org.hibernate.orm.jdbc.bind: trace #스프링 부트 3.x, hibernate6
+  org.hibernate.orm.jdbc.bind: ERROR #스프링 부트 3.x, hibernate6
 
 cloud:
   aws:

@@ -23,6 +23,8 @@ public class Notification {
 
     private Long receiverId;
 
+    private Long postId;
+
     private String message;
 
     private LocalDateTime datetime;
@@ -30,18 +32,18 @@ public class Notification {
 
     //==생성 메서드==//
 
-    public static Notification createNotification(Long senderId, Long receiverId, String message){
+    public static Notification createNotification(Long senderId, Long receiverId, Long postId, String message){
         Notification notification = new Notification();
 
         notification.setSenderId(senderId);
         notification.setReceiverId(receiverId);
+        notification.setPostId(postId);
         notification.setMessage(message);
-        notification.setDatetime(LocalDateTime.now().plusHours(9));
+        notification.setDatetime(LocalDateTime.now());
 
 
         return notification;
     }
-
 
 
 }

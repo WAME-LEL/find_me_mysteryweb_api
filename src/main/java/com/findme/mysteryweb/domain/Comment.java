@@ -26,17 +26,17 @@ public class Comment {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Comment parent;
 
@@ -50,7 +50,7 @@ public class Comment {
         comment.setPost(post);
         comment.setParent(parent);
         comment.setMember(member);
-        comment.setDatetime(LocalDateTime.now().plusHours(9));
+        comment.setDatetime(LocalDateTime.now());
         comment.setRecommend(0);
 
         comment.setContent(content);
