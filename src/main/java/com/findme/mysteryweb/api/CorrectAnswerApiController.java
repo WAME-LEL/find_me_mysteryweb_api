@@ -58,7 +58,9 @@ public class CorrectAnswerApiController {
         Post post = postService.findOne(request.postId);
         Member member = memberService.findOneByUsername(userDetails.getUsername());
         try{
-            if(post.getAnswer().equals(request.answer)){
+            String findAnswer = post.getAnswer().toUpperCase();
+            String inputAnswer = request.answer.toUpperCase();
+            if(findAnswer.equals(inputAnswer)){
                 correctAnswerService.save(member.getId(), request.postId);
                 return ResponseEntity.ok(true);
             }
@@ -69,8 +71,6 @@ public class CorrectAnswerApiController {
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-
     }
 
     //==DTO==//
