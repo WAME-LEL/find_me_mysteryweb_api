@@ -57,9 +57,9 @@ public class MemberService {
         return memberRepository.findCountOrderBySolved(count);
     }
 
-    public Member singIn(String username, String password){
-        return memberRepository.findOneByUsernameAndPassword(username, password);
-    }
+//    public Member singIn(String username, String password){
+//        return memberRepository.findOneByUsernameAndPassword(username, password);
+//    }
 
     @Transactional
     public void delete(Long memberId){

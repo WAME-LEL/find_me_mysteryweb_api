@@ -45,6 +45,9 @@ public class BookRepository {
                 .getResultList();
     }
 
+    public void clearStore() {
+        em.clear();
+    }
 
 
 

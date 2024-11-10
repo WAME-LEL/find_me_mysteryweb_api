@@ -66,5 +66,9 @@ public class RecommendationRepository {
         em.remove(em.find(Recommendation.class, recommendationId));
     }
 
+    public void clearStore(){
+        em.clear();
+    }
+
 
 }

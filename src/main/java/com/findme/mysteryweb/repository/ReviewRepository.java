@@ -50,6 +50,8 @@ public class ReviewRepository {
                 .getResultList();
     }
 
-
+    public void clearStore(){
+        em.clear();
+    }
 
 }

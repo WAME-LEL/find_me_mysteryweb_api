@@ -32,23 +32,23 @@ public class MemberRepository {
         return em.find(Member.class, memberId);
     }
 
-    public Member findOneByUsernameAndPassword(String username, String password) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-        List<Member> memberList = em.createQuery("select m from Member m where username like :username", Member.class)
-                .setParameter("username", username)
-                .getResultList();
-
-
-        if (!memberList.isEmpty()) {
-            Member member = memberList.get(0);
-            if (passwordEncoder.matches(password, member.getPassword())) {
-                return member;
-            }
-        }
-        return null;
-
-    }
+//    public Member findOneByUsernameAndPassword(String username, String password) {
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//
+//        List<Member> memberList = em.createQuery("select m from Member m where username like :username", Member.class)
+//                .setParameter("username", username)
+//                .getResultList();
+//
+//
+//        if (!memberList.isEmpty()) {
+//            Member member = memberList.get(0);
+//            if (passwordEncoder.matches(password, member.getPassword())) {
+//                return member;
+//            }
+//        }
+//        return null;
+//
+//    }
     public Member findOneByUsername(String username){
         List<Member> memberList = em.createQuery("select m from Member m where m.username like :username", Member.class)
                 .setParameter("username", username)

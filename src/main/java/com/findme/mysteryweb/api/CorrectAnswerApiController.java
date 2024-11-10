@@ -4,6 +4,7 @@ package com.findme.mysteryweb.api;
 import com.findme.mysteryweb.domain.CorrectAnswer;
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
+import com.findme.mysteryweb.service.CorrectAnswerHistoryService;
 import com.findme.mysteryweb.service.CorrectAnswerService;
 import com.findme.mysteryweb.service.MemberService;
 import com.findme.mysteryweb.service.PostService;
@@ -26,6 +27,7 @@ public class CorrectAnswerApiController {
     private final CorrectAnswerService correctAnswerService;
     private final PostService postService;
     private final MemberService memberService;
+    private final CorrectAnswerHistoryService correctAnswerHistoryService;
 
 
     @GetMapping("/api/correct")
@@ -60,6 +62,9 @@ public class CorrectAnswerApiController {
         try{
             String findAnswer = post.getAnswer().toUpperCase();
             String inputAnswer = request.answer.toUpperCase();
+
+            correctAnswerHistoryService.save(member.getId(), request.postId, request.answer);
+
             if(findAnswer.equals(inputAnswer)){
                 correctAnswerService.save(member.getId(), request.postId);
                 return ResponseEntity.ok(true);

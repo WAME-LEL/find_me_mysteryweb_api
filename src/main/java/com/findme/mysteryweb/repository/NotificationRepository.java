@@ -39,5 +39,9 @@ public class NotificationRepository {
         em.remove(findOne(notificationId));
     }
 
+    public void clearStore(){
+        em.clear();
+    }
+
 }
 

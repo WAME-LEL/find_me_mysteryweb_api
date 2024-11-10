@@ -43,6 +43,10 @@ public class CorrectAnswerRepository {
                 .getResultList();
     }
 
+    public void clearStore(){
+        em.clear();
+    }
+
 
 
 }

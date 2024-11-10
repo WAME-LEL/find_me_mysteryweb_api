@@ -2,6 +2,7 @@ package com.findme.mysteryweb.Repository;
 
 import com.findme.mysteryweb.domain.Member;
 import com.findme.mysteryweb.domain.Post;
+import com.findme.mysteryweb.repository.MemberRepository;
 import com.findme.mysteryweb.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
@@ -17,14 +19,19 @@ import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 class PostRepositoryTest {
 
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    MemberRepository memberRepository;
+
     @AfterEach
     void afterEach(){
         postRepository.clearStore();
+        memberRepository.clearStore();
     }
 
     @Test
@@ -131,4 +138,83 @@ class PostRepositoryTest {
         assertThat(findAll.size()).isEqualTo(1);
 
     }
+
+
+    @Test
+    void findAllByMemberId() {
+        //given
+        Member member = Member.createMember("test", "test", "test");
+
+        Post post1 = Post.createPost("test1", "test1", "test1", "test","test", member);
+        Post post2 = Post.createPost("test2", "test2", "test2", "test","test", member);
+
+        //when
+        memberRepository.save(member);
+        postRepository.save(post1);
+        postRepository.save(post2);
+
+        //then
+        List<Post> findAllByMemberId = postRepository.findAllByMemberId(member.getId());
+
+        assertThat(findAllByMemberId.size()).isEqualTo(2);
+    }
+
+    @Test
+    void findAllByAuthor() {
+        //given
+        Member member = Member.createMember("test", "test", "test");
+
+        Post post1 = Post.createPost("test1", "test1", "test1", "test","test", member);
+        Post post2 = Post.createPost("test1", "test1", "test1", "test","test", member);
+
+        //when
+        memberRepository.save(member);
+        postRepository.save(post1);
+        postRepository.save(post2);
+
+        //then
+        List<Post> allByAuthor = postRepository.findAllByAuthor(member.getNickname());
+
+        assertThat(allByAuthor.size()).isEqualTo(2);
+
+    }
+
+    @Test
+    void findAllByTypeAndTitleOrContent() {
+        //given
+        Member member = Member.createMember("test", "test", "test");
+
+        Post post = Post.createPost("test1", "test1", "test1", "test","test", member);
+
+        //when
+        memberRepository.save(member);
+        postRepository.save(post);
+
+        //then
+        List<Post> allByTypeAndTitleOrContent = postRepository.findAllByTypeAndTitleOrContent("test1", "test1", "asd");
+
+        assertThat(allByTypeAndTitleOrContent.size()).isEqualTo(1);
+    }
+
+    @Test
+    void findAllByTypeAndAuthor() {
+        //given
+        Member member = Member.createMember("test", "test", "test");
+
+        Post post1 = Post.createPost("test1", "test1", "ko", "test","test", member);
+        Post post2 = Post.createPost("test1", "test1", "koko", "test","test", member);
+        Post post3 = Post.createPost("test1", "test1", "koko", "test","test", member);
+
+        //when
+        memberRepository.save(member);
+        postRepository.save(post1);
+        postRepository.save(post2);
+        postRepository.save(post3);
+
+        //then
+        List<Post> allByTypeAndAuthor = postRepository.findAllByTypeAndAuthor("koko", "test");
+
+        assertThat(allByTypeAndAuthor.size()).isEqualTo(2);
+    }
+
 }
